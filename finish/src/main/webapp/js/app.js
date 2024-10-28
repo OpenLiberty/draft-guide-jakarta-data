@@ -78,6 +78,7 @@ async function processResponse(response) {
                 div.innerHTML += " length = " + m.length;
                 div.innerHTML += " width = " + m.width;
                 div.innerHTML += " height = " + m.height;
+                div.innerHTML += " destination = " + m.destination;
                 node.appendChild(div)
 			}
 		}
