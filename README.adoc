@@ -110,7 +110,13 @@ This method is functionally equivalent to the `insert` method provided by `CrudR
 
 
 === The `@OrderBy` Annotation
-To provide ordering annotatively, you can use the `@OrderBy` annotation. The default ordering direction is ascending.
+To provide ordering annotatively, you can use the `@OrderBy` annotation. The default ordering direction is ascending. To obtain all of the entities in a repository sorted by the height parameter, you could use the following.
+
+```
+@Find
+@OrderBy("height")
+List<Package> sortedByHeightAscending();
+```
 
 
 
