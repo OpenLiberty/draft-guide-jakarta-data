@@ -118,6 +118,11 @@ To provide ordering annotatively, you can use the `@OrderBy` annotation. The def
 List<Package> sortedByHeightAscending();
 ```
 
+`@OrderBy` can also return in descending order by specifying `descending = true` in the annotation.
+
+```
+@OrderBy(value = "height", descending = true)
+```
 
 
 == Sort, Limit, and Paging
