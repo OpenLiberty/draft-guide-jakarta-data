@@ -17,6 +17,8 @@ import jakarta.data.repository.CrudRepository;
 import jakarta.data.repository.Find;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.OrderBy;
+import jakarta.data.Limit;
+import jakarta.data.Sort;
 import jakarta.data.repository.By;
 import jakarta.data.repository.Repository;
 
@@ -44,4 +46,12 @@ public interface Packages extends CrudRepository<Package, Integer> {
     @OrderBy("height")
     List<Package> sortedByHeightAscending();
     // end::annotations[]
+
+    // tag::sorting[]
+    @Find
+    List<Package> sorted(Sort<?> sortBy);
+
+    List<Package> findByDestination(String destination, Limit limit, Sort<?> sortBy);
+
+    // end:sorting[]
 }

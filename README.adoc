@@ -126,7 +126,7 @@ List<Package> sortedByHeightAscending();
 
 
 == Sort, Limit, and Paging
-
+In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` as a parameter to your query method.
 
 
 == Query Annotations
