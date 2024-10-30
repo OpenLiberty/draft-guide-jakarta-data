@@ -16,6 +16,7 @@ function addToQueries(item, index) {
     parameters.className = "hFlexContainer"
 
     item.parameters.forEach((param, index) => {
+        //TODO create dropdowns Sort using item.types[index]
         input = document.createElement("input")
         input.placeholder = param
         input.setAttribute("jtype", item.types[index])
