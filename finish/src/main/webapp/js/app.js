@@ -17,8 +17,12 @@ function addToQueries(item, index) {
 
     item.parameters.forEach((param, index) => {
         //TODO create dropdowns Sort using item.types[index]
-        input = document.createElement("input")
-        input.placeholder = param
+        if (item.types[index] == "jakarta.data.Sort") {
+            input = sortDropDown()
+        } else {
+            input = document.createElement("input")
+            input.placeholder = param
+        }
         input.setAttribute("jtype", item.types[index])
         parameters.appendChild(input)
     })
@@ -88,6 +92,18 @@ async function processResponse(response) {
 	}
 
     console.log(response);
+}
+
+function sortDropDown() {
+    var select = document.createElement("select")
+    
+    var options = ["id", "length", "width", "height", "destination"]
+    options.forEach(input => {
+        var option = document.createElement("option")
+        option.innerHTML = input
+        select.appendChild(option)
+    })
+    return select
 }
 
 function toast(message, index) {
