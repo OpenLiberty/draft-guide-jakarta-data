@@ -59,10 +59,10 @@ async function callQuery(index) {
         } else if (input.tagName == "DIV") { //sort
             var text = ""
             input.childNodes.forEach(select => {
-                if (text = "") 
+                if (text == "") 
                     text = select.options[select.selectedIndex].text
-                else text = " " + select.options[select.selectedIndex].text
-            })
+                else text = text + " " + select.options[select.selectedIndex].text
+            }) 
             params.push(text)
         }
         types.push(input.getAttribute("jtype"))

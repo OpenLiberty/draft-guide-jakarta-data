@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import jakarta.data.Limit;
+import jakarta.data.Sort;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -149,11 +151,27 @@ public class PackageQueryService {
 
     Object getTypedValue(JsonArray array, int index, Class<?> type) {
         System.out.println("type: " + type);
+        //Numbers
         if (type.equals(Integer.class) || type.equals(Integer.TYPE)) return Integer.parseInt(array.getString(index));
         else if (type.equals(Long.class) || type.equals(Long.TYPE)) return Long.parseLong(array.getString(index));
         else if (type.equals(Float.class) || type.equals(Float.TYPE)) return Float.parseFloat(array.getString(index));
         else if (type.equals(Double.class) || type.equals(Double.TYPE)) return array.getJsonNumber(index).doubleValue();
+        //Sorts
+        else if (type.equals(Sort.class)) return parseSort(array.getString(index));
+        //Limit
+        else if (type.equals(Limit.class)) return Limit.of(Integer.parseInt(array.getString(index)));
+        //Strings
         else return array.getString(index);
+    }
+
+    Sort<?> parseSort(String sort) {
+        System.out.println("sort: " + sort);
+        if (sort.endsWith("asc")) {
+            return Sort.asc(sort.substring(0, sort.lastIndexOf(" asc")));
+        } else {
+            return Sort.desc(sort.substring(0, sort.lastIndexOf(" desc")));
+        }
+
     }
 
     //Due to type erasure we need to handle id as a special case
