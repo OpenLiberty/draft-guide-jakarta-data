@@ -50,10 +50,24 @@ async function callQuery(index) {
     //Process Inputs
     var params = []
     var types = []
-    Array.from(inputs.getElementsByTagName("input")).forEach(input => {
-        params.push(input.value)
+    console.log(inputs.children)
+    console.log(Array.from(inputs.children))
+    Array.from(inputs.children).forEach(input => {
+        console.log(input.tagName)
+        if (input.tagName == "INPUT") { //input
+            params.push(input.value)     
+        } else if (input.tagName == "DIV") { //sort
+            var text = ""
+            input.childNodes.forEach(select => {
+                if (text = "") 
+                    text = select.options[select.selectedIndex].text
+                else text = " " + select.options[select.selectedIndex].text
+            })
+            params.push(text)
+        }
         types.push(input.getAttribute("jtype"))
     })
+
     query.parameters = params
     query.types = types
 
