@@ -94,16 +94,28 @@ async function processResponse(response) {
     console.log(response);
 }
 
-function sortDropDown() {
-    var select = document.createElement("select")
+function sortDropDown(options) {
+    var div = document.createElement("div")
+    var params = document.createElement("select")
     
     var options = ["id", "length", "width", "height", "destination"]
     options.forEach(input => {
         var option = document.createElement("option")
         option.innerHTML = input
-        select.appendChild(option)
+        params.appendChild(option)
     })
-    return select
+
+    var sort = document.createElement("select")
+    var options = ["asc", "desc"]
+    options.forEach(input => {
+        var option = document.createElement("option")
+        option.innerHTML = input
+        sort.appendChild(option)
+    })
+
+    div.appendChild(params)
+    div.appendChild(sort)
+    return div
 }
 
 function toast(message, index) {
