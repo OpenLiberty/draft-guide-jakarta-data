@@ -129,4 +129,9 @@ List<Package> sortedByHeightAscending();
 In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` as a parameter to your query method.
 
 
-== Query Annotations
+== The Query Annotation
+The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL).
+
+== Where to next?
+Try out the sample application by creating your own queries.
+//Eventually link to an Advanced Guide as well.

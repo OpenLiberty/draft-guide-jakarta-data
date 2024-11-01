@@ -1,6 +1,7 @@
 package io.openliberty.guides.data;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.data.page.PageRequest;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 import jakarta.inject.Inject;
@@ -24,6 +25,7 @@ public class DbInit {
             packages.insert(new Package(6, 8f, 5f, 3f, "Rochester"));
             packages.insert(new Package(7, 16f, 3f, 15f, "RTP"));
             packages.insert(new Package(8, 2f, 15f, 18f, "Rochester"));
+
         }
     }
 }
