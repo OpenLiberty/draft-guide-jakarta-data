@@ -94,8 +94,15 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 === The `@Find` and `@By` Annotations
+The `@Find` annotation indicates that a method is a query which may return entities. Used in isolation it will
+return all entities, but by using the `@By` annotation, it can be limited to entities which match the value provided at runtime.
 
+```
+@Find
+List<Package> getPackagesArrivingIn(@By("destination") String destination);
+```
 
+//TODO should we mention --parameters at this point?
 
 // TODO provided vs built-in?
 === Renaming provided methods
@@ -123,7 +130,6 @@ List<Package> sortedByHeightAscending();
 ```
 @OrderBy(value = "height", descending = true)
 ```
-
 
 == Sort, Limit, and Paging
 In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` as a parameter to your query method.
