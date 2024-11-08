@@ -97,7 +97,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 The `@Find` annotation indicates that a method is a query which may return entities. Used in isolation it will
 return all entities, but by using the `@By` annotation, it can be limited to entities which match the value provided at runtime.
 
-```
+```java
 @Find
 List<Package> getPackagesArrivingIn(@By("destination") String destination);
 ```
@@ -108,7 +108,7 @@ List<Package> getPackagesArrivingIn(@By("destination") String destination);
 === Renaming provided methods
 If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the `@Insert` annotation you can use `add` instead of the `insert` method inherited from `CrudRepository` like this.
 
-```
+```java
 @Insert
 void add(Package p);
 ```
@@ -119,7 +119,7 @@ This method is functionally equivalent to the `insert` method provided by `CrudR
 === The `@OrderBy` Annotation
 To provide ordering annotatively, you can use the `@OrderBy` annotation. The default ordering direction is ascending. To obtain all of the entities in a repository sorted by the height parameter, you could use the following.
 
-```
+```java
 @Find
 @OrderBy("height")
 List<Package> sortedByHeightAscending();
@@ -127,12 +127,30 @@ List<Package> sortedByHeightAscending();
 
 `@OrderBy` can also return in descending order by specifying `descending = true` in the annotation.
 
-```
+```java
 @OrderBy(value = "height", descending = true)
 ```
+//TODO rename? Runtime Modifications...?
+== Sort, Limit, and Paging 
+Jakarta Data provides the `Sort` and `Limit` to create queries which can be modified at runtime. It also includes a mechanism for paging results to better handle large sets of results.
 
-== Sort, Limit, and Paging
+=== Sort
 In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` as a parameter to your query method.
+
+```java
+@Find
+List<Package> sorted(Sort<?> sortBy);
+```
+
+A `Sort` can be created and provided at runtime using the Sort class's static methods:
+```java
+Sort sort = Sort.desc("height");
+```
+
+=== Limit
+
+
+=== Paging
 
 
 == The Query Annotation
