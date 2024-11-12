@@ -52,7 +52,9 @@ public interface Packages extends CrudRepository<Package, Integer> {
     @Find
     List<Package> sorted(Sort<?> sortBy);
 
-    List<Package> findByLengthGreaterThan(float length, Sort<?> sortBy, Limit limit);
+    @Find
+    @OrderBy("length")
+    List<Package> longestWithLimit(Limit limit);
 
     List<Package> findByDestination(String destination, Sort<?> sortBy, PageRequest pageRequest);
 

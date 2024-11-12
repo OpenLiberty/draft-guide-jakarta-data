@@ -148,6 +148,21 @@ Sort sort = Sort.desc("height");
 ```
 
 === Limit
+Jakarta Data queries can restrict the number of results returned at runtime by providing a `Limit` object to the query.
+
+```java
+List<Package> longestWithLimit(Limit limit);
+```
+
+Limits can be created and supplied using the Limit class's static methods:
+```java
+Limit limit10 = Limit.of(10);
+```
+
+Limits can also be used to access a range of results, such as starting at result 10 and ending at result 20:
+```java
+Limit range = Limit.range(10,20);
+```
 
 
 === Paging
