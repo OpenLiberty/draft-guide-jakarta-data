@@ -159,7 +159,7 @@ public class PackageQueryService {
         //Sorts
         else if (type.equals(Sort.class)) return parseSort(array.getString(index));
         //Limit
-        else if (type.equals(Limit.class)) return Limit.of(Integer.parseInt(array.getString(index)));
+        else if (type.equals(Limit.class)) return parseLimit(array.getString(index));
         //Strings
         else return array.getString(index);
     }
@@ -172,6 +172,16 @@ public class PackageQueryService {
             return Sort.desc(sort.substring(0, sort.lastIndexOf(" desc")));
         }
 
+    }
+
+    Limit parseLimit(String limit) {
+        if (limit.contains("-")) {
+            String[] split = limit.split("-");
+            return Limit.range(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        } else {
+            return Limit.of(Integer.parseInt(limit));
+        }
+        //TODO catch java.lang.NumberFormatException and return error message to user
     }
 
     //Due to type erasure we need to handle id as a special case
