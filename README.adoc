@@ -62,7 +62,7 @@ This is a simple entity, with a few fields.
 ----
 
 Packages.java
-[source, Java, linenums, role='code_column hide_tags=copyright,annotations']
+[source, Java, linenums, role='code_column hide_tags=copyright,annotations,sorting']
 ----
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
@@ -76,7 +76,7 @@ Repositories in Jakarta Data provide a simplified means for interacting with per
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 Packages.java
-[source, Java, linenums, role='code_column hide_tags=copyright,annotations']
+[source, Java, linenums, role='code_column hide_tags=copyright,annotations,sorting']
 ----
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
@@ -88,7 +88,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 Packages.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, Java, linenums, role='code_column hide_tags=copyright,sorting']
 ----
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
@@ -133,6 +133,16 @@ List<Package> sortedByHeightAscending();
 //TODO rename? Runtime Modifications...?
 == Sort, Limit, and Paging 
 Jakarta Data provides the `Sort` and `Limit` to create queries which can be modified at runtime. It also includes a mechanism for paging results to better handle large sets of results.
+
+----
+#Update the `Packages.java` class.#
+`src/main/java/io/openliberty/guides/data/Packages.java`
+----
+Packages.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
+----
 
 === Sort
 In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` as a parameter to your query method.
