@@ -183,7 +183,7 @@ List<Package> results = page.content();
 Navigating pages can be done from the `Page` object:
 
 ```java
-Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest());
+Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); //TODO should we include .withoutTotal() ?
 ```
 
 == The Query Annotation
