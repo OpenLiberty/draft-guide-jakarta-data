@@ -156,7 +156,7 @@ List<Package> longestWithLimit(Limit limit);
 
 Limits can be created and supplied using the Limit class's static methods:
 ```java
-Limit limit10 = Limit.of(10);
+Limit limitTen = Limit.of(10);
 ```
 
 Limits can also be used to access a range of results, such as starting at result 10 and ending at result 20:
@@ -166,7 +166,25 @@ Limit range = Limit.range(10,20);
 
 
 === Paging
+When querying large amounts of data, paging is possible by providing a `PageRequest` in a query.
 
+```java
+@Find
+Page<Package> allWithPaging(PageRequest pageRequest);
+```
+
+A `PageRequest` can be constructed with the `PageRequest` class's static methods. To request the first page with a page size of 20 results:
+
+```java
+Page<Package> page = packages.allWithPaging(PageRequest.ofSize(20));
+List<Package> results = page.content();
+```
+
+Navigating pages can be done from the `Page` object:
+
+```java
+Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest());
+```
 
 == The Query Annotation
 The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL).

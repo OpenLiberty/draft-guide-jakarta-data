@@ -19,6 +19,7 @@ import jakarta.data.repository.Insert;
 import jakarta.data.repository.OrderBy;
 import jakarta.data.Limit;
 import jakarta.data.Sort;
+import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
 import jakarta.data.repository.By;
 import jakarta.data.repository.Repository;
@@ -56,7 +57,7 @@ public interface Packages extends CrudRepository<Package, Integer> {
     @OrderBy("length")
     List<Package> longestWithLimit(Limit limit);
 
-    List<Package> findByDestination(String destination, Sort<?> sortBy, PageRequest pageRequest);
-
-    // end:sorting[]
+    @Find
+    Page<Package> allWithPaging(PageRequest pageRequest);
+    // end::sorting[]
 }
