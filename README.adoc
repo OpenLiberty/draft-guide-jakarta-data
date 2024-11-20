@@ -197,8 +197,19 @@ Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); //TO
 ```
 
 == The Query Annotation
-The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL).
+The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL.
+
+```java
+@Query("where length > :threshold or height > :threshold or width > :threshold")
+List<Package> withLargeDimension(float threshold);
+```
+
+//TODO cover more of JDQL?
+
+For more information on JDQL see
+//TODO the spec? Liberty doc?
 
 == Where to next?
 Try out the sample application by creating your own queries.
+
 //Eventually link to an Advanced Guide as well.

@@ -17,6 +17,7 @@ import jakarta.data.repository.CrudRepository;
 import jakarta.data.repository.Find;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.OrderBy;
+import jakarta.data.repository.Query;
 import jakarta.data.Limit;
 import jakarta.data.Sort;
 import jakarta.data.page.Page;
@@ -60,4 +61,8 @@ public interface Packages extends CrudRepository<Package, Integer> {
     @Find
     Page<Package> allWithPaging(PageRequest pageRequest);
     // end::sorting[]
+
+    @Query("where length > :threshold or height > :threshold or width > :threshold")
+    List<Package> withLargeDimension(float threshold);
+
 }
