@@ -87,19 +87,28 @@ async function callQuery(index) {
 async function processResponse(response) {
 	if (response.ok) {
 		const body = await response.text();
+        console.log(body)
 		if (body.length > 0) {
             var node = document.getElementById("resultsSection")
             node.replaceChildren() //clear the results section
 
-			for (m of JSON.parse(body)) {
-				var div = document.createElement("div")
+            try { //Return useful server exception to user
+                var json = JSON.parse(body)
+            } catch (error) {
+                var div = document.createElement("div")
+                div.innerHTML = body
+                node.appendChild(div)
+            }
+
+            for (m of json) {
+                var div = document.createElement("div")
                 div.innerHTML = "id = " + m.id;
                 div.innerHTML += " length = " + m.length;
                 div.innerHTML += " width = " + m.width;
                 div.innerHTML += " height = " + m.height;
                 div.innerHTML += " destination = " + m.destination;
                 node.appendChild(div)
-			}
+            }
 		}
 	} else {
 		toast("Error! TODO better message",0)

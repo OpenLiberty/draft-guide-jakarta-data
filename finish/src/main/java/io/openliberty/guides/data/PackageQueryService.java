@@ -145,6 +145,12 @@ public class PackageQueryService {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             // TODO Reply to Client with error message
             e.printStackTrace();
+
+            if (e instanceof InvocationTargetException) {
+                if (e.getCause() != null) {
+                    return e.getCause().toString();
+                }
+            }
         }
         return "";
     }
