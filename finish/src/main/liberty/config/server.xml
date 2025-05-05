@@ -1,11 +1,12 @@
 <server description="Intro REST Guide Liberty server">
 
   <featureManager>
-      <feature>restfulWS-3.1</feature>
-      <feature>cdi-4.0</feature>
+      <feature>restfulWS-4.0</feature>
+      <feature>cdi-4.1</feature>
       <feature>data-1.0</feature>
-      <feature>persistence-3.1</feature>
+      <feature>persistence-3.2</feature>
       <feature>enterpriseBeans-4.0</feature>
+      <feature>requestTiming-1.0</feature>
   </featureManager>
 
   <variable name="default.http.port" defaultValue="9080"/>
@@ -14,7 +15,7 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-  <webApplication location="draft-guides-template.war" contextRoot="/"/>
+  <webApplication location="draftGuidesTemplate.war" contextRoot="/"/>
 
   <library id="DerbyLib">
     <fileset dir="${server.config.dir}/lib/derby" includes="*.jar"/>
@@ -24,5 +25,8 @@
     <jdbcDriver libraryRef="DerbyLib"/>
     <properties.derby.embedded databaseName="memory:testDB" createDatabase="create"/>
   </dataSource>
+
+  <!-- TODO remove -->
+  <logging traceSpecification="*=info:data=all:persistenceService=all"/>
 
 </server>
