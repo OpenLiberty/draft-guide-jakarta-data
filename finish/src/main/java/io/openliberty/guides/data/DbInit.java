@@ -1,19 +1,17 @@
 package io.openliberty.guides.data;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Singleton;
-import jakarta.ejb.Startup;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.Startup;
 import jakarta.inject.Inject;
 
-@Startup
-@Singleton
+@ApplicationScoped
 public class DbInit {
 
     @Inject
     Packages packages;
 
-    @PostConstruct
-    public void init() {
+    public void init(@Observes Startup event) {
         //Liberty Dev mode restarts the app without restarting the JVM, which results in 
         //the Db not being cleared from memory, so only add the packages if nothing exists.
        if (packages.findAll().count() == 0) {
