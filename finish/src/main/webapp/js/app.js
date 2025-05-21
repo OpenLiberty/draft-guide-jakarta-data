@@ -10,13 +10,12 @@ async function loadQueries() {
 function addToQueries(item, index) {
     var container = document.createElement("div")
     container.id = "query" + index
-    container.className = "vFlexContainer"
+    container.className = "vFlexContainer queryElement"
 
     var parameters = document.createElement("div")
     parameters.className = "hFlexContainer"
 
     item.parameters.forEach((param, index) => {
-        //TODO create dropdowns Sort using item.types[index]
         if (item.types[index] == "jakarta.data.Sort") {
             input = sortDropDown()
         } else {

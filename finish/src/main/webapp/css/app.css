@@ -165,9 +165,22 @@ button:hover {
 }
 
 #querySection, #resultsSection {
-	background-color: white;
+	background-color: #d4dfdb;
 	margin: 1em;
 	padding: .5em;
 	border-radius: 7pt;
 	justify-content: space-between;
+}
+
+.queryElement {
+    border-radius: 10px;
+    border-width: 10px;
+    padding: 10px;
+    padding-bottom: 0px;
+    margin: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: linear-gradient(to bottom, #141427, #2c2e50);
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
