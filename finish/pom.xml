@@ -59,13 +59,13 @@
                     <assemblyArtifact>
                         <groupId>io.openliberty.beta</groupId>
                         <artifactId>openliberty-runtime</artifactId>
-                        <version>24.0.0.8-beta</version>
+                        <version>25.0.0.4-beta</version>
                         <type>zip</type>
                     </assemblyArtifact>
                 -->
-                    <!--<installDirectory>/Users/mswatosh/programming/git/liberty/open-liberty/dev/build.image/wlp</installDirectory>-->
+                    <!-- Nightly until CDI fix is in beta-->
                     <install>
-                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2025-05-05_0301/openliberty-all-25.0.0.5-cl250520250505-0301.zip</runtimeUrl>
+                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2025-05-23_1102/openliberty-all-25.0.0.6-cl250620250523-1102.zip</runtimeUrl>
                     </install>
                     <copyDependencies>
                         <dependencyGroup>
