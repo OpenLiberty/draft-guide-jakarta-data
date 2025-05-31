@@ -25,7 +25,7 @@ import jakarta.ws.rs.core.Response;
 public class DataGuideIT {
 
     private static final String PORT = System.getProperty("http.port");
-    private static final String URL = "http://localhost:" + PORT 
+    private static final String URL = "http://localhost:" + PORT
                                         + "/shipping/packageQuery";
 
     private Client client;
