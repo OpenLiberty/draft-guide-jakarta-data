@@ -28,7 +28,7 @@ import jakarta.data.repository.Repository;
 @Repository
 // tag::CrudRepository[]
 public interface Packages extends CrudRepository<Package, Integer> {
-// end::CrudRepository[]
+    // end::CrudRepository[]
 
     // tag::query-by-method[]
     List<Package> findByLengthGreaterThan(float length);
