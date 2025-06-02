@@ -1,3 +1,14 @@
+// tag::copyright[]
+/*******************************************************************************
+ * Copyright (c) 2024, 2025 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *******************************************************************************/
+// end::copyright[]
 package io.openliberty.guides.data;
 
 import java.io.StringReader;
@@ -32,7 +43,7 @@ public class PackageQueryService {
     @Inject
     Packages packages;
 
-    //TODO see if some of these could be included
+    // TODO see if some of these could be included
     static List<String> excludedMethods = new ArrayList<String>();
     static {
         excludedMethods.add("insert");
@@ -46,19 +57,18 @@ public class PackageQueryService {
         excludedMethods.add("deleteById");
     }
 
-    static Map<String,Class<?>> primitiveMap = new HashMap<String,Class<?>>();
+    static Map<String, Class<?>> primitiveMap = new HashMap<String, Class<?>>();
     static {
-       primitiveMap.put("int", Integer.TYPE );
-       primitiveMap.put("long", Long.TYPE );
-       primitiveMap.put("double", Double.TYPE );
-       primitiveMap.put("float", Float.TYPE );
-       primitiveMap.put("bool", Boolean.TYPE );
-       primitiveMap.put("char", Character.TYPE );
-       primitiveMap.put("byte", Byte.TYPE );
-       primitiveMap.put("void", Void.TYPE );
-       primitiveMap.put("short", Short.TYPE );
+        primitiveMap.put("int", Integer.TYPE);
+        primitiveMap.put("long", Long.TYPE);
+        primitiveMap.put("double", Double.TYPE);
+        primitiveMap.put("float", Float.TYPE);
+        primitiveMap.put("bool", Boolean.TYPE);
+        primitiveMap.put("char", Character.TYPE);
+        primitiveMap.put("byte", Byte.TYPE);
+        primitiveMap.put("void", Void.TYPE);
+        primitiveMap.put("short", Short.TYPE);
     }
-
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,17 +77,17 @@ public class PackageQueryService {
         JsonArrayBuilder queryList = Json.createArrayBuilder();
 
         for (Method m : methods) {
-            if (excludedMethods.contains(m.getName())) continue;
-            
+            if (excludedMethods.contains(m.getName()))
+                continue;
+
             System.out.println();
             System.out.println("method:   " + m.getName() + "    --------");
-            
-            
+
             JsonObjectBuilder function = Json.createObjectBuilder();
             function.add("name", m.getName());
             JsonArrayBuilder params = Json.createArrayBuilder();
             JsonArrayBuilder types = Json.createArrayBuilder();
-            
+
             System.out.println("params:   --------");
             for (Parameter p : m.getParameters()) {
                 params.add(p.getName());
@@ -119,30 +129,33 @@ public class PackageQueryService {
                     // TODO Reply to Client with error message
                     e.printStackTrace();
                 }
-                params.add(getTypedValue(jsonParams,i,types.get(i)));
+                params.add(getTypedValue(jsonParams, i, types.get(i)));
             }
 
-
-            Method method = Packages.class.getMethod(json.getString("method"), types.toArray(new Class<?>[0]));
+            Method method = Packages.class.getMethod(json.getString("method"),
+                    types.toArray(new Class<?>[0]));
             checkForID(method, params);
             Object result = method.invoke(packages, params.toArray());
 
             JsonArrayBuilder returnList = Json.createArrayBuilder();
             if (result instanceof Stream) {
-                ((Stream<?>)result).forEach(p -> {
+                ((Stream<?>) result).forEach(p -> {
                     returnList.add(((Package) p).toJson());
                 });
             } else if (result instanceof List) {
-                ((List<?>)result).forEach(p -> {
+                ((List<?>) result).forEach(p -> {
                     returnList.add(((Package) p).toJson());
                 });
             } else if (result instanceof Optional) {
                 returnList.add(((Optional<Package>) result).get().toJson());
             } else {
-                throw new UnsupportedOperationException("Return type " + result.getClass() + " not handled in PackageQueryService.java");
+                throw new UnsupportedOperationException(
+                        "Return type " + result.getClass()
+                                + " not handled in PackageQueryService.java");
             }
             return returnList.build().toString();
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException e) {
             // TODO Reply to Client with error message
             e.printStackTrace();
 
@@ -157,17 +170,24 @@ public class PackageQueryService {
 
     Object getTypedValue(JsonArray array, int index, Class<?> type) {
         System.out.println("type: " + type);
-        //Numbers
-        if (type.equals(Integer.class) || type.equals(Integer.TYPE)) return Integer.parseInt(array.getString(index));
-        else if (type.equals(Long.class) || type.equals(Long.TYPE)) return Long.parseLong(array.getString(index));
-        else if (type.equals(Float.class) || type.equals(Float.TYPE)) return Float.parseFloat(array.getString(index));
-        else if (type.equals(Double.class) || type.equals(Double.TYPE)) return array.getJsonNumber(index).doubleValue();
-        //Sorts
-        else if (type.equals(Sort.class)) return parseSort(array.getString(index));
-        //Limit
-        else if (type.equals(Limit.class)) return parseLimit(array.getString(index));
-        //Strings
-        else return array.getString(index);
+        // Numbers
+        if (type.equals(Integer.class) || type.equals(Integer.TYPE))
+            return Integer.parseInt(array.getString(index));
+        else if (type.equals(Long.class) || type.equals(Long.TYPE))
+            return Long.parseLong(array.getString(index));
+        else if (type.equals(Float.class) || type.equals(Float.TYPE))
+            return Float.parseFloat(array.getString(index));
+        else if (type.equals(Double.class) || type.equals(Double.TYPE))
+            return array.getJsonNumber(index).doubleValue();
+        // Sorts
+        else if (type.equals(Sort.class))
+            return parseSort(array.getString(index));
+        // Limit
+        else if (type.equals(Limit.class))
+            return parseLimit(array.getString(index));
+        // Strings
+        else
+            return array.getString(index);
     }
 
     Sort<?> parseSort(String sort) {
@@ -187,15 +207,15 @@ public class PackageQueryService {
         } else {
             return Limit.of(Integer.parseInt(limit));
         }
-        //TODO catch java.lang.NumberFormatException and return error message to user
+        // TODO catch java.lang.NumberFormatException and return error message to user
     }
 
-    //Due to type erasure we need to handle id as a special case
+    // Due to type erasure we need to handle id as a special case
     void checkForID(Method method, List<Object> params) {
         Parameter[] parameters = method.getParameters();
         for (int i = 0; i < parameters.length; i++) {
             if (parameters[i].getName().equals("id")) {
-                params.set(i, Integer.parseInt((String)params.get(i)));
+                params.set(i, Integer.parseInt((String) params.get(i)));
             }
         }
     }

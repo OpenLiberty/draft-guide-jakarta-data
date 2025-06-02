@@ -1,3 +1,14 @@
+// tag::copyright[]
+/*******************************************************************************
+ * Copyright (c) 2024 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *******************************************************************************/
+// end::copyright[]
 package io.openliberty.guides.data;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,9 +23,10 @@ public class DbInit {
     Packages packages;
 
     public void init(@Observes Startup event) {
-        //Liberty Dev mode restarts the app without restarting the JVM, which results in 
-        //the Db not being cleared from memory, so only add the packages if nothing exists.
-       if (packages.findAll().count() == 0) {
+        // Liberty Dev mode restarts the app without restarting the JVM, which results
+        // in the Db not being cleared from memory, so only add the packages if nothing
+        // exists.
+        if (packages.findAll().count() == 0) {
             packages.insert(new Package(1, 10f, 20f, 10f, "Rochester"));
             packages.insert(new Package(2, 30f, 10f, 10f, "Austin"));
             packages.insert(new Package(3, 5f, 10f, 5f, "RTP"));
