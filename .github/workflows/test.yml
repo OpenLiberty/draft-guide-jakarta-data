@@ -33,12 +33,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: ./tools/pr-checker/linters/
           DEFAULT_BRANCH: draft
+          #Should this just be VALIDATE_JAVA: true?
           VALIDATE_CSS: false
+          VALIDATE_CSS_PRETTIER: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_CHECKOV: false
           VALIDATE_JSCPD: false
           VALIDATE_YAML_PRETTIER: false
           VALIDATE_GOOGLE_JAVA_FORMAT: false
+          VALIDATE_HTML: false
+          VALIDATE_HTML_PRETTIER: false
+          VALIDATE_JAVASCRIPT_ES: false
+          VALIDATE_JAVASCRIPT_PRETTIER: false
+          VALIDATE_MARKDOWN_PRETTIER: false
+          VALIDATE_SHELL_SHFMT: false
       - name: Summary
         if: "! github.event.pull_request.head.repo.fork"
         run: |
