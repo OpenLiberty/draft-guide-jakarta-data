@@ -77,8 +77,9 @@ public class PackageQueryService {
         JsonArrayBuilder queryList = Json.createArrayBuilder();
 
         for (Method m : methods) {
-            if (excludedMethods.contains(m.getName()))
+            if (excludedMethods.contains(m.getName())) {
                 continue;
+            }
 
             System.out.println();
             System.out.println("method:   " + m.getName() + "    --------");
@@ -171,23 +172,24 @@ public class PackageQueryService {
     Object getTypedValue(JsonArray array, int index, Class<?> type) {
         System.out.println("type: " + type);
         // Numbers
-        if (type.equals(Integer.class) || type.equals(Integer.TYPE))
+        if (type.equals(Integer.class) || type.equals(Integer.TYPE)) {
             return Integer.parseInt(array.getString(index));
-        else if (type.equals(Long.class) || type.equals(Long.TYPE))
+        } else if (type.equals(Long.class) || type.equals(Long.TYPE)) {
             return Long.parseLong(array.getString(index));
-        else if (type.equals(Float.class) || type.equals(Float.TYPE))
+        } else if (type.equals(Float.class) || type.equals(Float.TYPE)) {
             return Float.parseFloat(array.getString(index));
-        else if (type.equals(Double.class) || type.equals(Double.TYPE))
+        } else if (type.equals(Double.class) || type.equals(Double.TYPE)) {
             return array.getJsonNumber(index).doubleValue();
-        // Sorts
-        else if (type.equals(Sort.class))
+            // Sorts
+        } else if (type.equals(Sort.class)) {
             return parseSort(array.getString(index));
-        // Limit
-        else if (type.equals(Limit.class))
+            // Limit
+        } else if (type.equals(Limit.class)) {
             return parseLimit(array.getString(index));
-        // Strings
-        else
+            // Strings
+        } else {
             return array.getString(index);
+        }
     }
 
     Sort<?> parseSort(String sort) {

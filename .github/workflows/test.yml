@@ -38,6 +38,7 @@ jobs:
           VALIDATE_CHECKOV: false
           VALIDATE_JSCPD: false
           VALIDATE_YAML_PRETTIER: false
+          VALIDATE_GOOGLE_JAVA_FORMAT: false
       - name: Summary
         if: "! github.event.pull_request.head.repo.fork"
         run: |
