@@ -1,4 +1,4 @@
-// Copyright (c) 2024 IBM Corporation and others.
+// Copyright (c) 2024, 2025 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -106,7 +106,7 @@ return all entities, but by using the `@By` annotation, it can be limited to ent
 List<Package> getPackagesArrivingIn(@By("destination") String destination);
 ```
 
-//TODO should we mention --parameters at this point?
+//TODO should this mention --parameters at this point?
 
 // TODO provided vs built-in?
 === Renaming provided methods
@@ -197,7 +197,7 @@ List<Package> results = page.content();
 Navigating pages can be done from the `Page` object:
 
 ```java
-Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); //TODO should we include .withoutTotal() ?
+Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); //TODO should this include .withoutTotal() ?
 ```
 
 == The Query Annotation
