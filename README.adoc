@@ -131,7 +131,7 @@ List<Package> sortedByHeightAscending();
 ```
 //TODO rename? Runtime Modifications...?
 == Sort, Limit, and Paging 
-Jakarta Data provides the `Sort` and `Limit` to create queries which can be modified at runtime. It also includes a mechanism for paging results to better handle large sets of results.
+Jakarta Data provides the `Sort` and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for paging to better handle large sets of results.
 
 ----
 #Update the `Packages.java` class.#
@@ -221,7 +221,6 @@ List<Package> withTotalDimensionOver(float threshold);
 ```
 
 See the Jakarta Data specification for a more comprehensive overview of the Jakarta Data Query Language.
-//TODO the spec? Liberty doc?
 
 == Where to next?
 Try out the sample application by creating your own queries.
