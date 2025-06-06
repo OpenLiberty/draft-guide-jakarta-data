@@ -1,4 +1,4 @@
-// Copyright (c) 2024 IBM Corporation and others.
+// Copyright (c) 2024, 2025 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -26,16 +26,19 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 == What you'll learn
 
-You will learn how to use Jakarta Data to store data as well as simple, yet powerful options it provides for querying data. 
-TODO...
+You will learn how to use Jakarta Data to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the Jakarta Data Query Language (JDQL).
+
+The application demonstrates a number of different queries that are possible with Jakarta Data. Once you have completed the guide you can try writing your own queries with provided sample data.
 
 === What is Jakarta Data?
-Jakarta Data is a new data access specification being released with Jakarta EE 11.
-TODO.,.
+Jakarta Data is a new data access specification being released with Jakarta EE 11. It provides a new API for simplified data access. Jakarta Data follows the Repository design pattern for data access, and allows for implementations which may support both SQL and NoSQL data stores. It also provides enhanced type safety with a Static Metamodel.
 
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
+[role='command']
+include::{common-includes}/twyb-intro.adoc[]
+//TODO explain the application
 
 == Creating an Entity and Repository
 
@@ -103,7 +106,7 @@ return all entities, but by using the `@By` annotation, it can be limited to ent
 List<Package> getPackagesArrivingIn(@By("destination") String destination);
 ```
 
-//TODO should we mention --parameters at this point?
+//TODO should this mention --parameters at this point?
 
 // TODO provided vs built-in?
 === Renaming provided methods
@@ -133,7 +136,7 @@ List<Package> sortedByHeightAscending();
 ```
 //TODO rename? Runtime Modifications...?
 == Sort, Limit, and Paging 
-Jakarta Data provides the `Sort` and `Limit` to create queries which can be modified at runtime. It also includes a mechanism for paging results to better handle large sets of results.
+Jakarta Data provides the `Sort` and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for paging to better handle large sets of results.
 
 ----
 #Update the `Packages.java` class.#
@@ -194,7 +197,7 @@ List<Package> results = page.content();
 Navigating pages can be done from the `Page` object:
 
 ```java
-Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); //TODO should we include .withoutTotal() ?
+Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); //TODO should this include .withoutTotal() ?
 ```
 
 == The Query Annotation
@@ -223,9 +226,8 @@ List<Package> withTotalDimensionOver(float threshold);
 ```
 
 See the Jakarta Data specification for a more comprehensive overview of the Jakarta Data Query Language.
-//TODO the spec? Liberty doc?
 
 == Where to next?
-Try out the sample application by creating your own queries.
+Try out the sample application by creating your own queries. Add queries to the 
 
 //Eventually link to an Advanced Guide as well.
