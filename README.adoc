@@ -28,12 +28,17 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 You will learn how to use Jakarta Data to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the Jakarta Data Query Language (JDQL).
 
+The application demonstrates a number of different queries that are possible with Jakarta Data. Once you have completed the guide you can try writing your own queries with provided sample data.
+
 === What is Jakarta Data?
 Jakarta Data is a new data access specification being released with Jakarta EE 11. It provides a new API for simplified data access. Jakarta Data follows the Repository design pattern for data access, and allows for implementations which may support both SQL and NoSQL data stores. It also provides enhanced type safety with a Static Metamodel.
 
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
+[role='command']
+include::{common-includes}/twyb-intro.adoc[]
+//TODO explain the application
 
 == Creating an Entity and Repository
 
@@ -223,6 +228,6 @@ List<Package> withTotalDimensionOver(float threshold);
 See the Jakarta Data specification for a more comprehensive overview of the Jakarta Data Query Language.
 
 == Where to next?
-Try out the sample application by creating your own queries.
+Try out the sample application by creating your own queries. Add queries to the 
 
 //Eventually link to an Advanced Guide as well.
