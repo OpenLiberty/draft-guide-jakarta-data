@@ -73,6 +73,8 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 
 Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data provides several built in Repositories with common methods which can be extended. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
 
+[hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist and entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities. All three of these methods can be applied to a list of entites using `insertAll`, `saveAll`, and `deleteAll`.
+
 == Query by Method Name
 
 ----
