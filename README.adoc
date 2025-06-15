@@ -38,7 +38,22 @@ include::{common-includes}/gitclone.adoc[]
 
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
-//TODO explain the application
+
+Go to the http://localhost:9080 URL to see all the application. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the packages similar to the following:
+
+```
+id = 1 length = 10 width = 20 height = 10 destination = Rochester
+id = 2 length = 30 width = 10 height = 10 destination = Austin
+id = 3 length = 5 width = 10 height = 5 destination = RTP
+id = 4 length = 24 width = 15 height = 6 destination = Rochester
+id = 5 length = 15 width = 7 height = 2 destination = Austin
+id = 6 length = 8 width = 5 height = 3 destination = Rochester
+id = 7 length = 16 width = 3 height = 15 destination = RTP
+id = 8 length = 2 width = 15 height = 18 destination = Rochester
+```
+
+
+You can then try some of the queries which use input to see how it changes the returned packages.
 
 == Creating an Entity and Repository
 
@@ -75,6 +90,12 @@ Repositories in Jakarta Data provide a simplified means for interacting with per
 
 [hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist and entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities. All three of these methods can be applied to a list of entites using `insertAll`, `saveAll`, and `deleteAll`.
 
+```java
+Package p1 = new Package(1, 10f, 20f, 10f, "Rochester");
+packages.insert(p1);
+packages.delete(p1);
+```
+
 == Query by Method Name
 
 ----
@@ -86,6 +107,9 @@ Packages.java
 ----
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
+Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured. This allows methods like `findByLengthGreaterThan(float length)` or `findByHeightAndWidth(float height, float width))` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can contain include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
+
+For more information on all of the options available with Query by Method name, see the https://jakarta.ee/specifications/data/1.0/jakarta-data-addendum-1.0.pdf[Query by Method Name Extension] of the Jakarta Data specification.
 
 == Using Annotations
 
@@ -138,7 +162,7 @@ List<Package> sortedByHeightAscending();
 ```
 //TODO rename? Runtime Modifications...?
 == Sort, Limit, and Paging 
-Jakarta Data provides the `Sort` and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for paging to better handle large sets of results.
+Jakarta Data provides the `Sort` class and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for paging to better handle large sets of results.
 
 ----
 #Update the `Packages.java` class.#
@@ -198,8 +222,9 @@ List<Package> results = page.content();
 
 Navigating pages can be done from the `Page` object:
 
+//TODO should this include .withoutTotal() ?
 ```java
-Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); //TODO should this include .withoutTotal() ?
+Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); 
 ```
 
 == The Query Annotation
@@ -230,6 +255,6 @@ List<Package> withTotalDimensionOver(float threshold);
 See the Jakarta Data specification for a more comprehensive overview of the Jakarta Data Query Language.
 
 == Where to next?
-Try out the sample application by creating your own queries. Add queries to the 
+Try out the sample application by creating your own queries. Add your own queries to the `Packages` class like the provided ones and then try them out in the sample application.
 
 //Eventually link to an Advanced Guide as well.
