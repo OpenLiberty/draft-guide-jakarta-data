@@ -1,11 +1,10 @@
-<server description="Intro REST Guide Liberty server">
+<server description="Intro to Jakarta Data Guide Liberty server">
 
   <featureManager>
       <feature>restfulWS-4.0</feature>
       <feature>cdi-4.1</feature>
       <feature>data-1.0</feature>
       <feature>persistence-3.2</feature>
-      <feature>enterpriseBeans-4.0</feature>
       <feature>requestTiming-1.0</feature>
   </featureManager>
 
@@ -25,8 +24,5 @@
     <jdbcDriver libraryRef="DerbyLib"/>
     <properties.derby.embedded databaseName="memory:testDB" createDatabase="create"/>
   </dataSource>
-
-  <!-- TODO remove -->
-  <logging traceSpecification="*=info:data=all:persistenceService=all"/>
 
 </server>

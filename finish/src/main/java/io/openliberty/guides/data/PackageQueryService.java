@@ -43,6 +43,8 @@ public class PackageQueryService {
     @Inject
     Packages packages;
 
+    // Remove code to make this a basic example the does something more simple?
+
     // TODO see if some of these could be included
     static List<String> excludedMethods = new ArrayList<String>();
     static {
@@ -133,8 +135,8 @@ public class PackageQueryService {
                 params.add(getTypedValue(jsonParams, i, types.get(i)));
             }
 
-            Method method = Packages.class.getMethod(json.getString("method"),
-                    types.toArray(new Class<?>[0]));
+            // TODO: Consider not using reflection and going with a more basic user friendly 
+            Method method = Packages.class.getMethod(json.getString("method"), types.toArray(new Class<?>[0]));
             checkForID(method, params);
             Object result = method.invoke(packages, params.toArray());
 
@@ -224,5 +226,19 @@ public class PackageQueryService {
 
     boolean excludedMethods(Method m) {
         return excludedMethods.contains(m.getName());
+    }
+    
+    public record Package(int id, float length, float width, float height,
+        String destination) {
+            
+        JsonObjectBuilder toJson() {
+            JsonObjectBuilder json = Json.createObjectBuilder();
+            json.add("id", id);
+            json.add("length", length);
+            json.add("width", width);
+            json.add("height", height);
+            json.add("destination", destination);
+            return json;
+        }
     }
 }

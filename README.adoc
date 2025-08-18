@@ -39,7 +39,7 @@ include::{common-includes}/gitclone.adoc[]
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
-Go to the http://localhost:9080 URL to see all the application. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the packages similar to the following:
+Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the packages similar to the following:
 
 ```
 id = 1 length = 10 width = 20 height = 10 destination = Rochester
@@ -57,7 +57,7 @@ You can then try some of the queries which use input to see how it changes the r
 
 == Creating an Entity and Repository
 
-In Jakarta Data an entity defines the structure for persisting a piece of data. This structure is represented by a Java object and it's associated fields. Start by creating a simple record class.
+In Jakarta Data an entity defines the structure for persisting a piece of data. This structure is represented by a Java object and its associated fields. Start by creating a simple record class.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -161,8 +161,8 @@ List<Package> sortedByHeightAscending();
 @OrderBy(value = "height", descending = true)
 ```
 //TODO rename? Runtime Modifications...?
-== Sort, Limit, and Paging 
-Jakarta Data provides the `Sort` class and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for paging to better handle large sets of results.
+== Sort, Limit, and Pagination 
+Jakarta Data provides the `Sort` class and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for pagination to better handle large sets of results.
 
 ----
 #Update the `Packages.java` class.#
@@ -210,7 +210,7 @@ When querying large amounts of data, paging is possible by providing a `PageRequ
 
 ```java
 @Find
-Page<Package> allWithPaging(PageRequest pageRequest);
+Page<Package> allWithPaging(PageRequest pageRequest);  // TODO: Provide more realistic examples(?) with limits?
 ```
 
 A `PageRequest` can be constructed with the `PageRequest` class's static methods. To request the first page with a page size of 20 results:
@@ -258,3 +258,4 @@ See the Jakarta Data specification for a more comprehensive overview of the Jaka
 Try out the sample application by creating your own queries. Add your own queries to the `Packages` class like the provided ones and then try them out in the sample application.
 
 //Eventually link to an Advanced Guide as well.
+//Include Static Metamodel
