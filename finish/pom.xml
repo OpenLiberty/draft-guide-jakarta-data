@@ -1,6 +1,7 @@
 <project
     xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.openliberty.guides</groupId>
@@ -22,12 +23,6 @@
     <dependencies>
         <!-- Provided dependencies -->
         <dependency>
-        <!--        
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>11.0.0-M4</version>
-            <scope>provided</scope>
-            -->
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>11.0.0</version>
@@ -73,11 +68,6 @@
                         <version>25.0.0.8-beta</version>
                         <type>zip</type>
                     </assemblyArtifact>
-                    <!-- Nightly until CDI fix is in beta
-                    <install>
-                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2025-05-23_1102/openliberty-all-25.0.0.6-cl250620250523-1102.zip</runtimeUrl>
-                    </install>
-                    -->
                     <copyDependencies>
                         <dependencyGroup>
                             <!-- Relative to server config directory -->
