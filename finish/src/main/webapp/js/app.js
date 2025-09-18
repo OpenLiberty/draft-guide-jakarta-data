@@ -10,10 +10,13 @@ async function loadQueries() {
 function addToQueries(item, index) {
     var container = document.createElement("div")
     container.id = "query" + index
-    container.className = "vFlexContainer queryElement"
+    container.className = "hFlexContainer queryElement"
 
-    var parameters = document.createElement("div")
-    parameters.className = "hFlexContainer"
+    var button = document.createElement("button")
+    button.setAttribute("onclick", "callQuery(" + index + ")")
+    button.innerHTML = item.name
+
+    container.appendChild(button)
 
     item.parameters.forEach((param, index) => {
         if (item.types[index] == "jakarta.data.Sort") {
@@ -23,25 +26,17 @@ function addToQueries(item, index) {
             input.placeholder = param
         }
         input.setAttribute("jtype", item.types[index])
-        parameters.appendChild(input)
+        container.appendChild(input)
     })
-
-    container.appendChild(parameters)
-
-    var button = document.createElement("button")
-    button.setAttribute("onclick","callQuery(" + index + ")")
-    button.innerHTML = item.name
-
-    container.appendChild(button)
 
     var node = document.getElementById("querySection")
     node.appendChild(container)
-    
-} 
+
+}
 
 async function callQuery(index) {
     var node = document.getElementById("query" + index)
-    
+
     var query = {}
     query.method = node.getElementsByTagName("button")[0].innerHTML
     var inputs = node.getElementsByTagName("div")[0]
@@ -54,14 +49,14 @@ async function callQuery(index) {
     Array.from(inputs.children).forEach(input => {
         console.log(input.tagName)
         if (input.tagName == "INPUT") { //input
-            params.push(input.value)     
+            params.push(input.value)
         } else if (input.tagName == "DIV") { //sort
             var text = ""
             input.childNodes.forEach(select => {
-                if (text == "") 
+                if (text == "")
                     text = select.options[select.selectedIndex].text
                 else text = text + " " + select.options[select.selectedIndex].text
-            }) 
+            })
             params.push(text)
         }
         types.push(input.getAttribute("jtype"))
@@ -72,22 +67,22 @@ async function callQuery(index) {
 
     //Return json object
     const response = await fetch("shipping/packageQuery", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify(query),
-	})
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(query),
+    })
 
     processResponse(response)
 }
 
 
 async function processResponse(response) {
-	if (response.ok) {
-		const body = await response.text();
+    if (response.ok) {
+        const body = await response.text();
         console.log(body)
-		if (body.length > 0) {
+        if (body.length > 0) {
             var node = document.getElementById("resultsSection")
             node.replaceChildren() //clear the results section
 
@@ -108,10 +103,10 @@ async function processResponse(response) {
                 div.innerHTML += " destination = " + m.destination;
                 node.appendChild(div)
             }
-		}
-	} else {
-		toast("Error! TODO better message",0)
-	}
+        }
+    } else {
+        toast("Error! TODO better message", 0)
+    }
 
     console.log(response);
 }
@@ -119,7 +114,7 @@ async function processResponse(response) {
 function sortDropDown(options) {
     var div = document.createElement("div")
     var params = document.createElement("select")
-    
+
     var options = ["id", "length", "width", "height", "destination"]
     options.forEach(input => {
         var option = document.createElement("option")
@@ -141,8 +136,8 @@ function sortDropDown(options) {
 }
 
 function toast(message, index) {
-	var length = 3000;
-	var toast = document.getElementById("toast");
-	setTimeout(function(){ toast.innerText = message; toast.className = "show"; }, length*index);
-	setTimeout(function(){ toast.className = toast.className.replace("show",""); }, length + length*index);
+    var length = 3000;
+    var toast = document.getElementById("toast");
+    setTimeout(function () { toast.innerText = message; toast.className = "show"; }, length * index);
+    setTimeout(function () { toast.className = toast.className.replace("show", ""); }, length + length * index);
 }

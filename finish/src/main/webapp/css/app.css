@@ -12,30 +12,30 @@
 
 
 @font-face {
-	font-family: BunueloLight;
+    font-family: BunueloLight;
     src: url("../fonts/BunueloCleanPro-Light.otf");
 }
 
 @font-face {
-	font-family: BunueloSemiBold;
+    font-family: BunueloSemiBold;
     src: url("../fonts/BunueloCleanPro-SemiBold.otf");
 }
 
 
-body{
-    font-family:Asap;
-	font-size: 16px;
-    color:#24243b;
+body {
+    font-family: Asap;
+    font-size: 16px;
+    color: #24243b;
     background-color: white;
     margin: 0px;
 }
 
 section {
-	padding-top: 55px;
+    padding-top: 55px;
     padding-left: 8%;
     padding-right: 8%;
-    letter-spacing:0;
-    text-align:left;
+    letter-spacing: 0;
+    text-align: left;
 }
 
 .line {
@@ -56,25 +56,28 @@ p {
     line-height: 22px;
     margin-top: 0px;
 }
+
 h1 {
-    font-family:BunueloSemiBold;
+    font-family: BunueloSemiBold;
     font-size: 40px;
     font-weight: 400;
-    letter-spacing:0;
-    text-align:left;
+    letter-spacing: 0;
+    text-align: left;
 }
+
 h2 {
     font-size: 24px;
     font-weight: 400;
 }
+
 a {
     text-decoration: none;
 }
 
 #appIntro {
-    background-image:linear-gradient(#141427 0%, #2c2e50 100%);
-	background-repeat: no-repeat;
-	padding-bottom: .5em;
+    background-image: linear-gradient(#141427 0%, #2c2e50 100%);
+    background-repeat: no-repeat;
+    padding-bottom: .5em;
 }
 
 #titleSection {
@@ -82,24 +85,24 @@ a {
 }
 
 #appTitle {
-    font-family:BunueloLight;
-    font-size:55px;
+    font-family: BunueloLight;
+    font-size: 55px;
 }
 
 
 button {
-    border-radius:100px;
-    height:44px;
-    color:#24253a;
-    text-align:center;
+    border-radius: 100px;
+    height: 44px;
+    color: #24253a;
+    text-align: center;
     font-family: Asap;
     cursor: pointer;
-	border: none;
-	font-weight: 500;
-	font-size:16px;
-	background-color:#abd155;
-	transition: background-color .2s;
-	margin-top: 15px;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    background-color: #abd155;
+    transition: background-color .2s;
+    margin-top: 15px;
     margin-bottom: 15px;
     padding-left: 20px;
     padding-right: 20px;
@@ -110,37 +113,37 @@ button:hover {
 }
 
 .bodyFooter {
-  padding: 5px 8%;
-  background-image: url(../img/footer_main.png);
-  background-repeat: no-repeat;
-  background-position: top 20px right 110px;
-  margin-bottom: 40px;
-  margin-top: 50px;
-  color: #3F4659;
+    padding: 5px 8%;
+    background-image: url(../img/footer_main.png);
+    background-repeat: no-repeat;
+    background-position: top 20px right 110px;
+    margin-bottom: 40px;
+    margin-top: 50px;
+    color: #3F4659;
 }
 
 .bodyFooterLink {
-  font-family: Asap;
-  font-weight: 300;
-  font-size: 14px;
-  letter-spacing: 0;
-  border-bottom: solid 1px #C8D3D3;
-  margin-top: 30px;
-  margin-right: 130px;
-  padding-bottom: 5px;
-  padding-right: 50px;
-  text-align: right;
+    font-family: Asap;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0;
+    border-bottom: solid 1px #C8D3D3;
+    margin-top: 30px;
+    margin-right: 130px;
+    padding-bottom: 5px;
+    padding-right: 50px;
+    text-align: right;
 }
 
-.bodyFooterLink > a {
+.bodyFooterLink>a {
     text-decoration: none;
     padding: 10px;
     color: #96bc32;
 }
 
 #licenseLink {
-  color: #5E6B8D;
-  text-align: left;
+    color: #5E6B8D;
+    text-align: left;
 }
 
 #footer_text {
@@ -150,37 +153,38 @@ button:hover {
 }
 
 #footer_copyright {
-  font-size: 11px;
+    font-size: 11px;
 }
 
 /* Jakarta Data Demo properties below */
 .vFlexContainer {
-	display:         flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .hFlexContainer {
-	display:         flex;
-	flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
-#querySection, #resultsSection {
-	background-color: #d4dfdb;
-	margin: 1em;
-	padding: .5em;
-	border-radius: 7pt;
-	justify-content: space-between;
+#querySection,
+#resultsSection {
+    background-color: #d4dfdb;
+    margin: 1em;
+    padding: .5em;
+    border-radius: 7pt;
+    justify-content: space-between;
 }
 
 .queryElement {
     border-radius: 10px;
     border-width: 10px;
     padding: 10px;
-    padding-bottom: 0px;
     margin: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
     background: linear-gradient(to bottom, #141427, #2c2e50);
     margin-top: 10px;
     margin-bottom: 10px;
+    align-items: center;
 }
