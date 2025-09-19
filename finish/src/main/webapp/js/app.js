@@ -12,11 +12,10 @@ function addToQueries(item, index) {
     container.id = "query" + index
     container.className = "hFlexContainer queryElement"
 
-    var button = document.createElement("button")
-    button.setAttribute("onclick", "callQuery(" + index + ")")
-    button.innerHTML = item.name
+    var method = document.createElement("div")
+    method.innerHTML = item.name
 
-    container.appendChild(button)
+    container.appendChild(method)
 
     item.parameters.forEach((param, index) => {
         if (item.types[index] == "jakarta.data.Sort") {
@@ -28,6 +27,13 @@ function addToQueries(item, index) {
         input.setAttribute("jtype", item.types[index])
         container.appendChild(input)
     })
+
+    var button = document.createElement("button")
+    button.setAttribute("onclick", "callQuery(" + index + ")")
+    button.alt = "Run the " + item.name + "query"
+    button.innerHTML = "➜" //TODO innerHTML is used for method, switch to alt or use the div
+
+    container.appendChild(button)
 
     var node = document.getElementById("querySection")
     node.appendChild(container)

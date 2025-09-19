@@ -36,6 +36,7 @@ section {
     padding-right: 8%;
     letter-spacing: 0;
     text-align: left;
+    color: #abd155
 }
 
 .line {
@@ -92,20 +93,20 @@ a {
 
 button {
     border-radius: 100px;
-    height: 44px;
+    height: 40px;
     color: #24253a;
     text-align: center;
     font-family: Asap;
     cursor: pointer;
     border: none;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 28px;
     background-color: #abd155;
     transition: background-color .2s;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    padding-left: 20px;
-    padding-right: 20px;
+    /*margin-top: 15px;
+    margin-bottom: 15px;*/
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 button:hover {
@@ -165,6 +166,7 @@ button:hover {
 .hFlexContainer {
     display: flex;
     flex-direction: row;
+    gap: 10px
 }
 
 #querySection,
