@@ -95,24 +95,30 @@ async function processResponse(response) {
         console.log(body)
         if (body.length > 0) {
             var node = document.getElementById("resultsSection")
-            node.replaceChildren() //clear the results section
+            node.style = "" //Make the results section visible
 
             try { //Return useful server exception to user
                 var json = JSON.parse(body)
+                console.log(json)
             } catch (error) {
                 var div = document.createElement("div")
                 div.innerHTML = body
                 node.appendChild(div)
             }
 
+            var table = document.getElementById("tableBody")
+            var length = table.rows.length
+            for (let i = 0; i < length; i++) table.deleteRow(0) //clear table
+
+            console.log("removed table")
             for (m of json) {
-                var div = document.createElement("div")
-                div.innerHTML = "id = " + m.id;
-                div.innerHTML += " length = " + m.length;
-                div.innerHTML += " width = " + m.width;
-                div.innerHTML += " height = " + m.height;
-                div.innerHTML += " destination = " + m.destination;
-                node.appendChild(div)
+                console.log("inserting row")
+                var row = table.insertRow()
+                row.insertCell().innerHTML = m.id;
+                row.insertCell().innerHTML = m.length;
+                row.insertCell().innerHTML = m.width;
+                row.insertCell().innerHTML = m.height;
+                row.insertCell().innerHTML = m.destination;
             }
         }
     } else {
