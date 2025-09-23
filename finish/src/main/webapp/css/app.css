@@ -178,6 +178,10 @@ button:hover {
     justify-content: space-between;
 }
 
+#resultsSection {
+    color: black
+}
+
 .queryElement {
     border-radius: 10px;
     border-width: 10px;
