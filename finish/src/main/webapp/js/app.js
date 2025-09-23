@@ -12,10 +12,10 @@ function addToQueries(item, index) {
     container.id = "query" + index
     container.className = "hFlexContainer queryElement"
 
-    var method = document.createElement("div")
-    method.innerHTML = item.name
 
-    container.appendChild(method)
+    var span = document.createElement("span")
+    span.innerHTML = item.name
+    container.appendChild(span)
 
     item.parameters.forEach((param, index) => {
         if (item.types[index] == "jakarta.data.Sort") {
@@ -31,7 +31,7 @@ function addToQueries(item, index) {
     var button = document.createElement("button")
     button.setAttribute("onclick", "callQuery(" + index + ")")
     button.alt = "Run the " + item.name + "query"
-    button.innerHTML = "➜" //TODO innerHTML is used for method, switch to alt or use the div
+    button.innerHTML = "➜"
 
     container.appendChild(button)
 
@@ -44,18 +44,20 @@ async function callQuery(index) {
     var node = document.getElementById("query" + index)
 
     var query = {}
-    query.method = node.getElementsByTagName("button")[0].innerHTML
-    var inputs = node.getElementsByTagName("div")[0]
+    query.method = node.querySelector("span").innerHTML
 
     //Process Inputs
     var params = []
     var types = []
-    console.log(inputs.children)
-    console.log(Array.from(inputs.children))
-    Array.from(inputs.children).forEach(input => {
+    console.log(node)
+
+    console.log(node.children)
+    console.log(Array.from(node.children))
+    Array.from(node.children).forEach(input => {
         console.log(input.tagName)
         if (input.tagName == "INPUT") { //input
             params.push(input.value)
+            types.push(input.getAttribute("jtype"))
         } else if (input.tagName == "DIV") { //sort
             var text = ""
             input.childNodes.forEach(select => {
@@ -64,12 +66,15 @@ async function callQuery(index) {
                 else text = text + " " + select.options[select.selectedIndex].text
             })
             params.push(text)
+            types.push(input.getAttribute("jtype"))
         }
-        types.push(input.getAttribute("jtype"))
+
     })
+
 
     query.parameters = params
     query.types = types
+    console.log(query)
 
     //Return json object
     const response = await fetch("shipping/packageQuery", {

@@ -135,8 +135,6 @@ public class PackageQueryService {
                 params.add(getTypedValue(jsonParams, i, types.get(i)));
             }
 
-            // TODO: Consider not using reflection and going with a more basic user
-            // friendly
             Method method = Packages.class.getMethod(json.getString("method"),
                     types.toArray(new Class<?>[0]));
             checkForID(method, params);
