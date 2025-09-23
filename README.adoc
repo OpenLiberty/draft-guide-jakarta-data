@@ -42,14 +42,15 @@ include::{common-includes}/twyb-intro.adoc[]
 Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the packages similar to the following:
 
 ```
-id = 1 length = 10 width = 20 height = 10 destination = Rochester
-id = 2 length = 30 width = 10 height = 10 destination = Austin
-id = 3 length = 5 width = 10 height = 5 destination = RTP
-id = 4 length = 24 width = 15 height = 6 destination = Rochester
-id = 5 length = 15 width = 7 height = 2 destination = Austin
-id = 6 length = 8 width = 5 height = 3 destination = Rochester
-id = 7 length = 16 width = 3 height = 15 destination = RTP
-id = 8 length = 2 width = 15 height = 18 destination = Rochester
+ID 	Length 	Width 	Height 	Destination
+1	10	    20	    10	    Rochester
+2	30	    10	    10	    Austin
+3	5	    10	    5	    RTP
+4	24	    15	    6	    Rochester
+5	15	    7	    2	    Austin
+6	8	    5	    3	    Rochester
+7	16	    3	    15	    RTP
+8	2	    15	    18	    Rochester
 ```
 
 
