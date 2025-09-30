@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import java.util.stream.Stream;
 
 import jakarta.data.Limit;
 import jakarta.data.Sort;
+import jakarta.data.page.PageRequest;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -43,11 +45,10 @@ public class PackageQueryService {
     @Inject
     Packages packages;
 
-    // Remove code to make this a basic example the does something more simple?
-
     // TODO see if some of these could be included
     static List<String> excludedMethods = new ArrayList<String>();
     static {
+        excludedMethods.add("add");
         excludedMethods.add("insert");
         excludedMethods.add("insertAll");
         excludedMethods.add("update");
@@ -79,7 +80,7 @@ public class PackageQueryService {
         JsonArrayBuilder queryList = Json.createArrayBuilder();
 
         for (Method m : methods) {
-            if (excludedMethods.contains(m.getName())) {
+            if (excludeMethod(m)) {
                 continue;
             }
 
@@ -214,6 +215,13 @@ public class PackageQueryService {
         // TODO catch java.lang.NumberFormatException and return error message to user
     }
 
+    PageRequest parsePageRequest(String page, String maxPageLength) {
+        return PageRequest.ofPage(Long.parseLong(page), Integer.parseInt(maxPageLength),
+                false);
+        // TODO catch java.lang.NumberFormatException and return error message to user
+
+    }
+
     // Due to type erasure we need to handle id as a special case
     void checkForID(Method method, List<Object> params) {
         Parameter[] parameters = method.getParameters();
@@ -224,9 +232,13 @@ public class PackageQueryService {
         }
     }
 
-    boolean excludedMethods(Method m) {
-        return excludedMethods.contains(m.getName());
-
+    boolean excludeMethod(Method m) {
+        if (excludedMethods.contains(m.getName()))
+            return true;
+        // exclude methods that accept an Order
+        if (Arrays.asList(m.getParameterTypes()).contains(jakarta.data.Order.class))
+            return true;
+        return false;
     }
 
 }
