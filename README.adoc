@@ -42,15 +42,15 @@ include::{common-includes}/twyb-intro.adoc[]
 Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the packages similar to the following:
 
 ```
-ID 	Length 	Width 	Height 	Destination
-1	10	    20	    10	    Rochester
-2	30	    10	    10	    Austin
-3	5	    10	    5	    RTP
-4	24	    15	    6	    Rochester
-5	15	    7	    2	    Austin
-6	8	    5	    3	    Rochester
-7	16	    3	    15	    RTP
-8	2	    15	    18	    Rochester
+ID  Length  Width   Height  Destination
+1   10      20      10      Rochester
+2   30      10      10      Austin
+3   5       10      5       RTP
+4   24      15      6       Rochester
+5   15      7       2       Austin
+6   8       5       3       Rochester
+7   16      3       15      RTP
+8   2       15      18      Rochester
 ```
 
 
@@ -74,7 +74,6 @@ include::finish/src/main/java/io/openliberty/guides/data/Package.java[]
 
 This is a simple entity, with a few fields. 
 
-//TODO Packages or PackageRepository?
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `Packages.java` class.#
@@ -87,7 +86,7 @@ Packages.java
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
-Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data provides several built in Repositories with common methods which can be extended. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
+Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data provides several built in Repositories with common methods which can be extended with application specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
 
 [hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist and entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities. All three of these methods can be applied to a list of entites using `insertAll`, `saveAll`, and `deleteAll`.
 
@@ -99,6 +98,7 @@ packages.delete(p1);
 
 == Query by Method Name
 
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `Packages.java` class.#
 `src/main/java/io/openliberty/guides/data/Packages.java`
@@ -108,12 +108,13 @@ Packages.java
 ----
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
-Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured. This allows methods like `findByLengthGreaterThan(float length)` or `findByHeightAndWidth(float height, float width))` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can contain include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
+Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured. This allows methods like `findByLengthGreaterThan(float length)` or `findByHeightAndWidth(float height, float width)` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can contain include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
 
 For more information on all of the options available with Query by Method name, see the https://jakarta.ee/specifications/data/1.0/jakarta-data-addendum-1.0.pdf[Query by Method Name Extension] of the Jakarta Data specification.
 
 == Using Annotations
 
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `Packages.java` class.#
 `src/main/java/io/openliberty/guides/data/Packages.java`
@@ -137,7 +138,7 @@ List<Package> getPackagesArrivingIn(@By("destination") String destination);
 
 // TODO provided vs built-in?
 === Renaming provided methods
-If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the `@Insert` annotation you can use `add` instead of the `insert` method inherited from `CrudRepository` like this.
+If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the `@Insert` annotation you can create a method named `add` instead of the `insert` method inherited from `CrudRepository` like this.
 
 ```java
 @Insert
@@ -165,6 +166,7 @@ List<Package> sortedByHeightAscending();
 == Sort, Limit, and Pagination 
 Jakarta Data provides the `Sort` class and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for pagination to better handle large sets of results.
 
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `Packages.java` class.#
 `src/main/java/io/openliberty/guides/data/Packages.java`
@@ -211,26 +213,26 @@ When querying large amounts of data, paging is possible by providing a `PageRequ
 
 ```java
 @Find
-Page<Package> allWithPaging(PageRequest pageRequest);  // TODO: Provide more realistic examples(?) with limits?
+Page<Package> all(PageRequest pageRequest);
 ```
 
 A `PageRequest` can be constructed with the `PageRequest` class's static methods. To request the first page with a page size of 20 results:
 
 ```java
-Page<Package> page = packages.allWithPaging(PageRequest.ofSize(20));
+Page<Package> page = packages.all(PageRequest.ofSize(20));
 List<Package> results = page.content();
 ```
 
 Navigating pages can be done from the `Page` object:
 
-//TODO should this include .withoutTotal() ?
 ```java
-Page<Package> anotherPage = packages.allWithPaging(page.nextPageRequest()); 
+Page<Package> anotherPage = packages.all(page.nextPageRequest()); 
 ```
 
 == The Query Annotation
 The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL.
 
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `Packages.java` class.#
 `src/main/java/io/openliberty/guides/data/Packages.java`

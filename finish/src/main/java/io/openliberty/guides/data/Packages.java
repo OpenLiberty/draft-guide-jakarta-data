@@ -59,7 +59,7 @@ public interface Packages extends CrudRepository<Package, Integer> {
     List<Package> longestWithLimit(Limit limit);
 
     @Find
-    Page<Package> allWithPaging(PageRequest pageRequest);
+    Page<Package> all(PageRequest pageRequest);
     // end::sorting[]
 
     // tag::query-anno[]
