@@ -1,32 +1,30 @@
-<server description="Intro REST Guide Liberty server">
+<server description="Intro to Jakarta Data Guide Liberty server">
 
-  <featureManager>
-      <feature>restfulWS-4.0</feature>
-      <feature>cdi-4.1</feature>
-      <feature>data-1.0</feature>
-      <feature>persistence-3.2</feature>
-      <feature>enterpriseBeans-4.0</feature>
-      <feature>requestTiming-1.0</feature>
-  </featureManager>
+    <featureManager>
+        <feature>restfulWS-4.0</feature>
+        <feature>cdi-4.1</feature>
+        <feature>data-1.0</feature>
+        <feature>persistence-3.2</feature>
+        <feature>requestTiming-1.0</feature>
+    </featureManager>
 
-  <variable name="default.http.port" defaultValue="9080"/>
-  <variable name="default.https.port" defaultValue="9443"/>
+    <variable name="default.http.port" defaultValue="9080" />
+    <variable name="default.https.port" defaultValue="9443" />
 
-  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
-      id="defaultHttpEndpoint" host="*" />
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+        id="defaultHttpEndpoint" host="*" />
 
-  <webApplication location="draftGuidesTemplate.war" contextRoot="/"/>
+    <webApplication location="draftGuidesTemplate.war" contextRoot="/" />
 
-  <library id="DerbyLib">
-    <fileset dir="${server.config.dir}/lib/derby" includes="*.jar"/>
-  </library>
+    <library id="H2">
+        <fileset dir="${server.config.dir}/lib/h2" includes="*.jar" />
+    </library>
 
-  <dataSource id="DefaultDataSource" jndiName="jdbc/datadb">
-    <jdbcDriver libraryRef="DerbyLib"/>
-    <properties.derby.embedded databaseName="memory:testDB" createDatabase="create"/>
-  </dataSource>
+    <dataSource id="DefaultDataSource" jndiName="jdbc/datadb">
+        <jdbcDriver libraryRef="H2" />
+        <properties URL="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
+    </dataSource>
 
-  <!-- TODO remove -->
-  <logging traceSpecification="*=info:data=all:persistenceService=all"/>
+    <logging traceSpecification="*=info:data=all:persistenceService=all" />
 
 </server>
