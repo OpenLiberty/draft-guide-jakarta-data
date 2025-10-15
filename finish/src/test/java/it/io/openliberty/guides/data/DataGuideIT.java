@@ -60,13 +60,13 @@ public class DataGuideIT {
         // System.out.println(json);
         JsonObject findByLengthGreaterThan = Json.createObjectBuilder()
                 .add("name", "findByLengthGreaterThan")
-                .add("parameters", Json.createArrayBuilder().add("arg0").build())
+                .add("parameters", Json.createArrayBuilder().add("length").build())
                 .add("types", Json.createArrayBuilder().add("float").build()).build();
 
         JsonObject findByLengthGreaterThanAndWidthLessThan = Json.createObjectBuilder()
                 .add("name", "findByLengthGreaterThanAndWidthLessThan")
                 .add("parameters",
-                        Json.createArrayBuilder().add("arg0").add("arg1").build())
+                        Json.createArrayBuilder().add("length").add("width").build())
                 .add("types",
                         Json.createArrayBuilder().add("float").add("float").build())
                 .build();
