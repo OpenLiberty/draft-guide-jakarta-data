@@ -71,8 +71,9 @@ public class DataGuideIT {
                         Json.createArrayBuilder().add("float").add("float").build())
                 .build();
 
-        assertTrue(json.contains(findByLengthGreaterThan));
-        assertTrue(json.contains(findByLengthGreaterThanAndWidthLessThan));
+        assertTrue(json.contains(findByLengthGreaterThan), json.toString());
+        assertTrue(json.contains(findByLengthGreaterThanAndWidthLessThan),
+                json.toString());
     }
 
 }
