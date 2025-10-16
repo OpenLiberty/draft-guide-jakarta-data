@@ -80,7 +80,8 @@ public class DataGuideIT {
     @Test
     public void testGetData() throws Exception {
         Response response = client.target(URL).request().post(Entity.json(
-                "{\"method\":\"getPackagesArrivingIn\",\"parameters\":[\"Rochester\"],\"types\":[\"java.lang.String\"]}"));
+                "{\"method\":\"getPackagesArrivingIn\",\"parameters\":[\"Rochester\"],"
+                        + "\"types\":[\"java.lang.String\"]}"));
         assertEquals(200, response.getStatus(), "Incorrect response code from: " + URL);
         String jsonReponse = response.readEntity(String.class);
         JsonArray json = Json.createReader(new StringReader(jsonReponse)).readArray();
