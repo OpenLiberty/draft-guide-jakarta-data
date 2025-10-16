@@ -35,7 +35,18 @@ public class DbInit {
             packages.insert(new Package(6, 8f, 5f, 3f, "Rochester"));
             packages.insert(new Package(7, 16f, 3f, 15f, "RTP"));
             packages.insert(new Package(8, 2f, 15f, 18f, "Rochester"));
-        // TODO: Add more examples
+            packages.insert(new Package(9, 5f, 22f, 10f, "Austin"));
+            packages.insert(new Package(10, 24f, 10f, 8f, "Markham"));
+            packages.insert(new Package(11, 5f, 12f, 14f, "RTP"));
+            packages.insert(new Package(12, 24f, 14f, 8f, "Rochester"));
+            packages.insert(new Package(13, 8f, 10f, 4f, "Austin"));
+            packages.insert(new Package(14, 25f, 5f, 9f, "Hursley"));
+            packages.insert(new Package(15, 15f, 8f, 15f, "RTP"));
+            packages.insert(new Package(16, 38f, 16f, 25f, "Markham"));
+            packages.insert(new Package(17, 7f, 7f, 7f, "Hursley"));
+            packages.insert(new Package(18, 12f, 25f, 8f, "Rochester"));
+            packages.insert(new Package(19, 16f, 5f, 3f, "RTP"));
+            packages.insert(new Package(20, 4f, 15f, 16f, "Hursley"));
         }
     }
 }
