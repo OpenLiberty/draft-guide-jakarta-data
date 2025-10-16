@@ -30,6 +30,7 @@ import jakarta.json.JsonObjectBuilder;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -74,6 +75,27 @@ public class DataGuideIT {
         assertTrue(json.contains(findByLengthGreaterThan), json.toString());
         assertTrue(json.contains(findByLengthGreaterThanAndWidthLessThan),
                 json.toString());
+    }
+
+    @Test
+    public void testGetData() throws Exception {
+        Response response = client.target(URL).request().post(Entity.json(
+                "{\"method\":\"getPackagesArrivingIn\",\"parameters\":[\"Rochester\"],\"types\":[\"java.lang.String\"]}"));
+        assertEquals(200, response.getStatus(), "Incorrect response code from: " + URL);
+        String jsonReponse = response.readEntity(String.class);
+        JsonArray json = Json.createReader(new StringReader(jsonReponse)).readArray();
+        System.out.println(json);
+
+        JsonObject id1 = Json.createObjectBuilder().add("id", 1).add("length", 10.0)
+                .add("width", 20.0).add("height", 10.0).add("destination", "Rochester")
+                .build();
+
+        JsonObject id4 = Json.createObjectBuilder().add("id", 4).add("length", 24.0)
+                .add("width", 15.0).add("height", 6.0).add("destination", "Rochester")
+                .build();
+
+        assertTrue(json.contains(id1), json.toString());
+        assertTrue(json.contains(id4), json.toString());
     }
 
 }
