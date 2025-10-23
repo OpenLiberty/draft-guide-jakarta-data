@@ -91,7 +91,6 @@ Repositories in Jakarta Data provide a simplified means for interacting with per
 [hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist an entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities.
 
 ```java
-// Example of using insert, save and delete on a package
 Package p1 = new Package(1, 10f, 20f, 10f, "Rochester");
 packages.insert(p1);
 packages.save(p1);
