@@ -17,8 +17,8 @@ Description - TODO
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-:page-seo-title: Data Persistence with Jakarta Data
-:page-seo-description: Data Persistence with Jakarta Data
+:page-seo-title: Jakarta Data - TODO
+:page-seo-description: Jakarta Data - TODO
 :guide-author: Open Liberty
 = Data Persistence with Jakarta Data
 [.hidden]
