@@ -39,7 +39,7 @@ include::{common-includes}/gitclone.adoc[]
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
-This application allows you to run queries against different shipping package dimensions and destinations.  Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the query data, called packages, similar to the following:
+This application allows you to run queries against a set of shipping packages which have a variety of dimensions and destinations.  Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the query data similar to the following:
 
 ```
 ID  Length  Width   Height  Destination
