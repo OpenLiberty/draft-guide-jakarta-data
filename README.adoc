@@ -186,7 +186,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 === Sort
-In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` object as a parameter to your query method:
+In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` parameter to your query method:
 
 ```java
 @Find
