@@ -118,7 +118,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 
 Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured. This allows methods like `findByLengthGreaterThan(float length)` or `findByHeightAndWidth(float height, float width)` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
 
-For more information on all of the options available with Query by Method name, see the https://jakarta.ee/specifications/data/1.0/jakarta-data-addendum-1.0.pdf[Query by Method Name Extension] of the https://jakarta.ee/specifications/data/1.0/[Jakarta Data specification].
+For more information on all of the options available with Query by Method name, see the https://jakarta.ee/specifications/data/1.0/jakarta-data-addendum-1.0.pdf[Query by Method Name Extension] of the Jakarta Data specification.
 
 == Using Annotations
 
