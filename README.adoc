@@ -8,10 +8,10 @@
 //
 :page-layout: guide-multipane
 :projectid: jakarta-data
-:page-duration: 500 minutes
+:page-duration: 15 minutes
 :page-releasedate: 2024-01-01
 :page-majorupdateddate: 2023-01-01
-:page-description: Description - TODO
+Description - TODO
 :page-tags: ['jakarta-ee']
 :page-related-guides: []
 :page-permalink: /guides/{projectid}
@@ -28,7 +28,7 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 You will learn how to use Jakarta Data to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the Jakarta Data Query Language (JDQL).
 
-The application demonstrates a number of different queries that are possible with Jakarta Data. Once you have completed the guide you can try writing your own queries with provided sample data.
+The application demonstrates a number of different queries that are possible with Jakarta Data. Once you have completed the guide you can try writing your own queries with the provided sample data.
 
 === What is Jakarta Data?
 Jakarta Data is a new data access specification being released with Jakarta EE 11. It provides a new API for simplified data access. Jakarta Data follows the Repository design pattern for data access, and allows for implementations which may support both SQL and NoSQL data stores. It also provides enhanced type safety with a Static Metamodel.
@@ -39,7 +39,7 @@ include::{common-includes}/gitclone.adoc[]
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
-Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the packages similar to the following:
+This application allows you to run queries against a set of shipping packages which have a variety of dimensions and destinations.  Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the query data similar to the following:
 
 ```
 ID  Length  Width   Height  Destination
@@ -53,8 +53,8 @@ ID  Length  Width   Height  Destination
 8   2       15      18      Rochester
 ```
 
+You can then try some of the queries which use input to see how it changes which packages are returned.
 
-You can then try some of the queries which use input to see how it changes the returned packages.
 
 == Creating an Entity and Repository
 
@@ -88,13 +88,17 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 
 Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data provides several built in Repositories with common methods which can be extended with application specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
 
-[hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist and entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities. All three of these methods can be applied to a list of entites using `insertAll`, `saveAll`, and `deleteAll`.
+[hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist an entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities.
 
 ```java
 Package p1 = new Package(1, 10f, 20f, 10f, "Rochester");
 packages.insert(p1);
+packages.save(p1);
 packages.delete(p1);
 ```
+
+All three of these methods can be applied to a list of entities using `insertAll`, `saveAll`, and `deleteAll`.
+
 
 == Query by Method Name
 
@@ -111,7 +115,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 
-Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured. This allows methods like `findByLengthGreaterThan(float length)` or `findByHeightAndWidth(float height, float width)` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can contain include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
+Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured. This allows methods like `findByLengthGreaterThan(float length)` or `findByHeightAndWidth(float height, float width)` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
 
 For more information on all of the options available with Query by Method name, see the https://jakarta.ee/specifications/data/1.0/jakarta-data-addendum-1.0.pdf[Query by Method Name Extension] of the Jakarta Data specification.
 
@@ -131,7 +135,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 
 === The `@Find` and `@By` Annotations
 The `@Find` annotation indicates that a method is a query which may return entities. Used in isolation it will
-return all entities, but by using the `@By` annotation, it can be limited to entities which match the value provided at runtime.
+return all entities, but by using the `@By` annotation, it can be limited to entities which match the value provided at runtime:
 
 ```java
 @Find
@@ -141,7 +145,7 @@ List<Package> getPackagesArrivingIn(@By("destination") String destination);
 //TODO should this mention --parameters at this point?
 
 === Renaming provided methods
-If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the `@Insert` annotation you can create a method named `add` instead of the `insert` method inherited from `CrudRepository` like this.
+If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the `@Insert` annotation you can create a method named `add` instead of the `insert` method inherited from `CrudRepository` like this:
 
 ```java
 @Insert
@@ -152,7 +156,7 @@ This method is functionally equivalent to the `insert` method provided by `CrudR
 
 
 === The `@OrderBy` Annotation
-To provide ordering annotatively, you can use the `@OrderBy` annotation. The default ordering direction is ascending. To obtain all of the entities in a repository sorted by the height parameter, you could use the following.
+To provide ordering annotatively, you can use the `@OrderBy` annotation. The default ordering direction is ascending. To obtain all of the packages in the repository sorted by the height parameter, you could use the following:
 
 ```java
 @Find
@@ -160,14 +164,14 @@ To provide ordering annotatively, you can use the `@OrderBy` annotation. The def
 List<Package> sortedByHeightAscending();
 ```
 
-`@OrderBy` can also return in descending order by specifying `descending = true` in the annotation.
+`@OrderBy` can also return in descending order by specifying `descending = true` in the annotation:
 
 ```java
 @OrderBy(value = "height", descending = true)
 ```
 //TODO rename? Runtime Modifications...?
 == Sort, Limit, and Pagination 
-Jakarta Data provides the `Sort` class and the `@Limit` annotation to create queries which can be modified at runtime. It also includes a mechanism for pagination to better handle large sets of results.
+Jakarta Data provides the `Sort` and `Limit` classes to create queries which can be modified at runtime. It also includes a mechanism for pagination to better handle large sets of results.
 
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright,query-anno']
@@ -182,38 +186,38 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 === Sort
-In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` as a parameter to your query method.
+In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` parameter to your query method:
 
 ```java
 @Find
 List<Package> sorted(Sort<?> sortBy);
 ```
 
-A `Sort` can be created and provided at runtime using the Sort class's static methods:
+A `Sort` can be created and provided at runtime using the `Sort` class's static methods:
 ```java
 Sort sort = Sort.desc("height");
 ```
 
 === Limit
-Jakarta Data queries can restrict the number of results returned at runtime by providing a `Limit` object to the query.
+Jakarta Data queries can restrict the number of entities returned at runtime by providing a `Limit` object to the query:
 
 ```java
 List<Package> longestWithLimit(Limit limit);
 ```
 
-Limits can be created and supplied using the Limit class's static methods:
+Limits can be created and supplied using the `Limit` class's static methods:
 ```java
 Limit limitTen = Limit.of(10);
 ```
 
-Limits can also be used to access a range of results, such as starting at result 10 and ending at result 20:
+Limits can also be used to access a range of entities, such as starting at the 10th entity and ending at the 20th:
 ```java
 Limit range = Limit.range(10,20);
 ```
 
 
 === Paging
-When querying large amounts of data, paging is possible by providing a `PageRequest` in a query.
+When querying large amounts of data, paging is possible by adding a `PageRequest` parameter to your query method:
 
 ```java
 @Find
@@ -230,11 +234,11 @@ List<Package> results = page.content();
 Navigating pages can be done from the `Page` object:
 
 ```java
-Page<Package> anotherPage = packages.all(page.nextPageRequest()); 
+Page<Package> anotherPage = packages.all(page.nextPageRequest());
 ```
 
 == The Query Annotation
-The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL.
+The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL.  JDQL is a strict subset of the Jakarta Persistence Query Language (JPQL).
 
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -248,24 +252,26 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 
-Here is an example of a complex query simplified using JDQL.  
+Here is an example of a complex query simplified using JDQL.
 
 ```java
 @Query("WHERE length > :threshold OR height > :threshold OR width > :threshold")
 List<Package> withDimensionLargerThan(float threshold);
 ```
 
-Achieving the same query with Query by Method Name would result in a very long method name and additional parameters. JDQL is a strict subset of the Jakarta Persistence Query Language (JPQL), supporting named and ordinal parameters, as well as a number of operators.
+Achieving the same query with Query by Method Name would result in a very long method name and additional parameters.
 
+
+JDQL supports named and ordinal parameters, as well as a number of operators.
 ```java
 @Query("WHERE length + width + height > ?1")
 List<Package> withTotalDimensionOver(float threshold);
 ```
 
-See the Jakarta Data specification for a more comprehensive overview of the Jakarta Data Query Language.
+See the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_data_query_language[Jakarta Data specification] for a more comprehensive overview of the Jakarta Data Query Language.
 
 == Where to next?
-Try out the sample application by creating your own queries. Add your own queries to the `Packages` class like the provided ones and then try them out in the sample application.
+Experiment by creating your own queries.  Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application.
 
 //Eventually link to an Advanced Guide as well.
 //Include Static Metamodel
