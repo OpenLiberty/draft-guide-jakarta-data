@@ -62,7 +62,7 @@ In Jakarta Data an entity defines the structure for persisting a piece of data. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `Package` class in the start directory:#
+#Create the `Package` class.#
 `src/main/java/io/openliberty/guides/data/Package.java`
 ----
 
