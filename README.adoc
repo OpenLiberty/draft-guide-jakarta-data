@@ -210,7 +210,7 @@ Limits can be created and supplied using the `Limit` class's static methods:
 Limit limitTen = Limit.of(10);
 ```
 
-Limits can also be used to access a range of packages, such as starting at package 10 and ending at package 20:
+Limits can also be used to access a range of entities, such as starting at the 10th entity and ending at the 20th:
 ```java
 Limit range = Limit.range(10,20);
 ```
