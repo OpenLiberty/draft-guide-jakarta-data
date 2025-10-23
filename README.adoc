@@ -110,7 +110,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `Packages.java` class:#
+#Update the `Packages.java` class.#
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 
