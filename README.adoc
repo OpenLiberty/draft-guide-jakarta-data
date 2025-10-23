@@ -11,7 +11,7 @@
 :page-duration: 15 minutes
 :page-releasedate: 2024-01-01
 :page-majorupdateddate: 2023-01-01
-:page-description: Data Persistence with Jakarta Data
+Description - TODO
 :page-tags: ['jakarta-ee']
 :page-related-guides: []
 :page-permalink: /guides/{projectid}
