@@ -217,7 +217,7 @@ Limit range = Limit.range(10,20);
 
 
 === Paging
-When querying large amounts of data, paging is possible by providing a `PageRequest` object in a query:
+When querying large amounts of data, paging is possible by adding a `PageRequest` parameter to your query method:
 
 ```java
 @Find
