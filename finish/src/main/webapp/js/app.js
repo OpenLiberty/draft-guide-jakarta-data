@@ -82,6 +82,7 @@ async function callQuery(index) {
         headers: {
             "Content-Type": "application/json"
         },
+
         body: JSON.stringify(query),
     })
 
@@ -122,7 +123,8 @@ async function processResponse(response) {
             }
         }
     } else {
-        toast("Error! TODO better message", 0)
+        const message = await response.text();
+        toast(message, 0)
     }
 
     console.log(response);
@@ -153,7 +155,7 @@ function sortDropDown(options) {
 }
 
 function toast(message, index) {
-    var length = 3000;
+    var length = 6000;
     var toast = document.getElementById("toast");
     setTimeout(function () { toast.innerText = message; toast.className = "show"; }, length * index);
     setTimeout(function () { toast.className = toast.className.replace("show", ""); }, length + length * index);

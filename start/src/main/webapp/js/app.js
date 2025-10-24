@@ -10,10 +10,12 @@ async function loadQueries() {
 function addToQueries(item, index) {
     var container = document.createElement("div")
     container.id = "query" + index
-    container.className = "vFlexContainer queryElement"
+    container.className = "hFlexContainer queryElement"
 
-    var parameters = document.createElement("div")
-    parameters.className = "hFlexContainer"
+
+    var span = document.createElement("span")
+    span.innerHTML = item.name
+    container.appendChild(span)
 
     item.parameters.forEach((param, index) => {
         if (item.types[index] == "jakarta.data.Sort") {
@@ -23,95 +25,107 @@ function addToQueries(item, index) {
             input.placeholder = param
         }
         input.setAttribute("jtype", item.types[index])
-        parameters.appendChild(input)
+        container.appendChild(input)
     })
 
-    container.appendChild(parameters)
-
     var button = document.createElement("button")
-    button.setAttribute("onclick","callQuery(" + index + ")")
-    button.innerHTML = item.name
+    button.setAttribute("onclick", "callQuery(" + index + ")")
+    button.alt = "Run the " + item.name + "query"
+    button.innerHTML = "➜"
 
     container.appendChild(button)
 
     var node = document.getElementById("querySection")
     node.appendChild(container)
-    
-} 
+
+}
 
 async function callQuery(index) {
     var node = document.getElementById("query" + index)
-    
+
     var query = {}
-    query.method = node.getElementsByTagName("button")[0].innerHTML
-    var inputs = node.getElementsByTagName("div")[0]
+    query.method = node.querySelector("span").innerHTML
 
     //Process Inputs
     var params = []
     var types = []
-    console.log(inputs.children)
-    console.log(Array.from(inputs.children))
-    Array.from(inputs.children).forEach(input => {
+    console.log(node)
+
+    console.log(node.children)
+    console.log(Array.from(node.children))
+    Array.from(node.children).forEach(input => {
         console.log(input.tagName)
         if (input.tagName == "INPUT") { //input
-            params.push(input.value)     
+            params.push(input.value)
+            types.push(input.getAttribute("jtype"))
         } else if (input.tagName == "DIV") { //sort
             var text = ""
             input.childNodes.forEach(select => {
-                if (text == "") 
+                if (text == "")
                     text = select.options[select.selectedIndex].text
                 else text = text + " " + select.options[select.selectedIndex].text
-            }) 
+            })
             params.push(text)
+            types.push(input.getAttribute("jtype"))
         }
-        types.push(input.getAttribute("jtype"))
+
     })
+
 
     query.parameters = params
     query.types = types
+    console.log(query)
 
     //Return json object
     const response = await fetch("shipping/packageQuery", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify(query),
-	})
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(query),
+    })
 
     processResponse(response)
 }
 
 
 async function processResponse(response) {
-	if (response.ok) {
-		const body = await response.text();
+    if (response.ok) {
+        const body = await response.text();
         console.log(body)
-		if (body.length > 0) {
+        if (body.length > 0) {
             var node = document.getElementById("resultsSection")
-            node.replaceChildren() //clear the results section
+            node.style = "" //Make the results section visible
 
             try { //Return useful server exception to user
                 var json = JSON.parse(body)
+                console.log(json)
             } catch (error) {
                 var div = document.createElement("div")
                 div.innerHTML = body
                 node.appendChild(div)
             }
 
+            var table = document.getElementById("tableBody")
+            var length = table.rows.length
+            for (let i = 0; i < length; i++) table.deleteRow(0) //clear table
+
+            console.log("removed table")
             for (m of json) {
-                var div = document.createElement("div")
-                div.innerHTML = "id = " + m.id;
-                div.innerHTML += " length = " + m.length;
-                div.innerHTML += " width = " + m.width;
-                div.innerHTML += " height = " + m.height;
-                div.innerHTML += " destination = " + m.destination;
-                node.appendChild(div)
+                console.log("inserting row")
+                var row = table.insertRow()
+                row.insertCell().innerHTML = m.id;
+                row.insertCell().innerHTML = m.length;
+                row.insertCell().innerHTML = m.width;
+                row.insertCell().innerHTML = m.height;
+                row.insertCell().innerHTML = m.destination;
             }
-		}
-	} else {
-		toast("Error! TODO better message",0)
-	}
+        }
+    } else {
+        const message = await response.text();
+        toast(message, 0)
+    }
 
     console.log(response);
 }
@@ -119,7 +133,7 @@ async function processResponse(response) {
 function sortDropDown(options) {
     var div = document.createElement("div")
     var params = document.createElement("select")
-    
+
     var options = ["id", "length", "width", "height", "destination"]
     options.forEach(input => {
         var option = document.createElement("option")
@@ -141,8 +155,8 @@ function sortDropDown(options) {
 }
 
 function toast(message, index) {
-	var length = 3000;
-	var toast = document.getElementById("toast");
-	setTimeout(function(){ toast.innerText = message; toast.className = "show"; }, length*index);
-	setTimeout(function(){ toast.className = toast.className.replace("show",""); }, length + length*index);
+    var length = 6000;
+    var toast = document.getElementById("toast");
+    setTimeout(function () { toast.innerText = message; toast.className = "show"; }, length * index);
+    setTimeout(function () { toast.className = toast.className.replace("show", ""); }, length + length * index);
 }

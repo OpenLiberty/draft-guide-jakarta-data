@@ -38,6 +38,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/packageQuery")
 public class PackageQueryService {
@@ -45,7 +46,6 @@ public class PackageQueryService {
     @Inject
     Packages packages;
 
-    // TODO see if some of these could be included
     static List<String> excludedMethods = new ArrayList<String>();
     static {
         excludedMethods.add("add");
@@ -112,10 +112,11 @@ public class PackageQueryService {
     @SuppressWarnings("unchecked")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String callQuery(String jsonString) {
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
+    public Response callQuery(String jsonString) {
         System.out.println(jsonString);
         JsonObject json = Json.createReader(new StringReader(jsonString)).readObject();
+        JsonArrayBuilder returnList = Json.createArrayBuilder();
         try {
             List<Object> params = new ArrayList<Object>();
             List<Class<?>> types = new ArrayList<Class<?>>();
@@ -130,8 +131,9 @@ public class PackageQueryService {
                         types.add(Class.forName(type));
                     }
                 } catch (ClassNotFoundException e) {
-                    // TODO Reply to Client with error message
                     e.printStackTrace();
+                    return Response.status(404).type(MediaType.TEXT_PLAIN)
+                            .entity("The requested Query does not exist.").build();
                 }
                 params.add(getTypedValue(jsonParams, i, types.get(i)));
             }
@@ -141,7 +143,6 @@ public class PackageQueryService {
             checkForID(method, params);
             Object result = method.invoke(packages, params.toArray());
 
-            JsonArrayBuilder returnList = Json.createArrayBuilder();
             if (result instanceof Stream) {
                 ((Stream<?>) result).forEach(p -> {
                     returnList.add(((Package) p).toJson());
@@ -157,19 +158,25 @@ public class PackageQueryService {
                         "Return type " + result.getClass()
                                 + " not handled in PackageQueryService.java");
             }
-            return returnList.build().toString();
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException e) {
-            // TODO Reply to Client with error message
-            e.printStackTrace();
-
             if (e instanceof InvocationTargetException) {
                 if (e.getCause() != null) {
-                    return e.getCause().toString();
+                    return Response.status(404).type(MediaType.TEXT_PLAIN)
+                            .entity(e.getCause().toString()).build();
                 }
+            } else if (e instanceof IllegalArgumentException) {
+                return Response.status(404).type(MediaType.TEXT_PLAIN)
+                        .entity("Invalid input for selected method. " + e.getMessage())
+                        .build();
+            } else {
+                e.printStackTrace();
+                return Response.status(404).type(MediaType.TEXT_PLAIN)
+                        .entity("Error. " + e.getMessage()).build();
             }
         }
-        return "";
+        return Response.ok(returnList.build().toString(), MediaType.APPLICATION_JSON)
+                .build();
     }
 
     Object getTypedValue(JsonArray array, int index, Class<?> type) {
@@ -212,14 +219,12 @@ public class PackageQueryService {
         } else {
             return Limit.of(Integer.parseInt(limit));
         }
-        // TODO catch java.lang.NumberFormatException and return error message to user
     }
 
+    // TODO handle pagerequest
     PageRequest parsePageRequest(String page, String maxPageLength) {
         return PageRequest.ofPage(Long.parseLong(page), Integer.parseInt(maxPageLength),
                 false);
-        // TODO catch java.lang.NumberFormatException and return error message to user
-
     }
 
     // Due to type erasure we need to handle id as a special case
