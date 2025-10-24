@@ -56,7 +56,22 @@ ID  Length  Width   Height  Destination
 You can then try some of the queries which use input to see how it changes which packages are returned.
 
 
+//TODO add an example with input here
+
+[role='command']
+include::{common-includes}/twyb-end.adoc[]
+
 == Creating an Entity and Repository
+
+Navigate to the `start` directory to begin.
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/guide-jakarta-data/start
+```
+endif::[]
+
+[role='command']
+include::{common-includes}/devmode-lmp33-start.adoc[]
 
 In Jakarta Data an entity defines the structure for persisting a piece of data. This structure is represented by a Java object and its associated fields. Start by creating a simple record class.
 
@@ -202,6 +217,8 @@ Sort sort = Sort.desc("height");
 Jakarta Data queries can restrict the number of entities returned at runtime by providing a `Limit` object to the query:
 
 ```java
+@Find
+@OrderBy("length")
 List<Package> longestWithLimit(Limit limit);
 ```
 
@@ -272,6 +289,10 @@ See the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_dat
 
 == Where to next?
 Experiment by creating your own queries.  Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application.
+
+
+//TODO add ideas for queries here
+
 
 //Eventually link to an Advanced Guide as well.
 //Include Static Metamodel
