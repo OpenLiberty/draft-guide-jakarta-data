@@ -83,13 +83,13 @@ jobs:
           sudo chmod 777 target/liberty/wlp/usr/servers/defaultServer/logs
       - name: Archive finish logs if failed
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: finish-logs
           path: finish/target/liberty/wlp/usr/servers/defaultServer/logs/
       - name: Archive start logs if failed
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: start-logs
           path: start/target/liberty/wlp/usr/servers/defaultServer/logs/
