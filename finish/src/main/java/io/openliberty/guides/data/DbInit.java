@@ -16,6 +16,10 @@ import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.Startup;
 import jakarta.inject.Inject;
 
+/**
+ * A CDI bean that initializes the database with sample data. The initialization
+ * is triggered by a Startup CDI event.
+ */
 @ApplicationScoped
 public class DbInit {
 
