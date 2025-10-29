@@ -238,11 +238,13 @@ public class PackageQueryService {
     }
 
     boolean excludeMethod(Method m) {
-        if (excludedMethods.contains(m.getName()))
+        if (excludedMethods.contains(m.getName())) {
             return true;
+        }
         // exclude methods that accept an Order
-        if (Arrays.asList(m.getParameterTypes()).contains(jakarta.data.Order.class))
+        if (Arrays.asList(m.getParameterTypes()).contains(jakarta.data.Order.class)) {
             return true;
+        }
         return false;
     }
 
