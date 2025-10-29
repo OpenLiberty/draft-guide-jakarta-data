@@ -40,12 +40,20 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+/**
+ * A RESTful Web Services resource that provides functionality for querying
+ * packages. It provides a list of available queries in the {@link Packages}
+ * class as well as allows those methods to be called through reflection.
+ */
 @Path("/packageQuery")
 public class PackageQueryService {
 
     @Inject
     Packages packages;
 
+    /**
+     * Methods that aren't queries or won't make sense in the UI
+     */
     static List<String> excludedMethods = new ArrayList<String>();
     static {
         excludedMethods.add("add");
@@ -73,6 +81,12 @@ public class PackageQueryService {
         primitiveMap.put("short", Short.TYPE);
     }
 
+    /**
+     * GET method to return an array of the available query methods from the
+     * {@link Packages} class.
+     *
+     * @return A JSON array containing details of available query methods.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String queries() {
@@ -109,6 +123,13 @@ public class PackageQueryService {
 
     }
 
+    /**
+     * POST method to execute a query method based on the provided JSON input.
+     *
+     * @param jsonString JSON string containing method name, parameters, and their
+     *                   types.
+     * @return A JSON array of results from the executed method.
+     */
     @SuppressWarnings("unchecked")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
