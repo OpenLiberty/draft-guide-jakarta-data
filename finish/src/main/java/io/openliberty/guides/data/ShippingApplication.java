@@ -14,6 +14,11 @@ package io.openliberty.guides.data;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
+/**
+ * The main application class for the shipping application. This class is a
+ * JAX-RS application configuration class, annotated with
+ * {@code @ApplicationPath} to specify the base path for all resources.
+ */
 @ApplicationPath("/shipping")
 public class ShippingApplication extends Application {
 
