@@ -101,7 +101,7 @@ Packages.java
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
-Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data provides several built in Repositories with common methods which can be extended with application specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
+Repositories in Jakarta Data provide a simplified means for interacting with persistent data. They are annotated with the `@Repository` annotation. Jakarta Data provides several built in Repositories with common methods which can be extended with application specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
 
 [hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist an entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities.
 
@@ -276,7 +276,7 @@ Here is an example of a complex query simplified using JDQL.
 List<Package> withDimensionLargerThan(float threshold);
 ```
 
-Achieving the same query with Query by Method Name would result in a very long method name and additional parameters.
+This query checks for packages where the length, height, or width are larger than a threshold, which is provided as a parameter in the function. The threshold parameter is referenced in the query using `:threshold`. Achieving the same query with Query by Method Name would result in a very long method name and additional parameters.
 
 
 JDQL supports named and ordinal parameters, as well as a number of operators.
