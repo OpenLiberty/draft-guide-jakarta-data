@@ -166,14 +166,14 @@ public class PackageQueryService {
 
             if (result instanceof Stream) {
                 ((Stream<?>) result).forEach(p -> {
-                    returnList.add(((Package) p).toJson());
+                    returnList.add(toJson((Package) p));
                 });
             } else if (result instanceof List) {
                 ((List<?>) result).forEach(p -> {
-                    returnList.add(((Package) p).toJson());
+                    returnList.add(toJson((Package) p));
                 });
             } else if (result instanceof Optional) {
-                returnList.add(((Optional<Package>) result).get().toJson());
+                returnList.add(toJson(((Optional<Package>) result).get()));
             } else {
                 throw new UnsupportedOperationException(
                         "Return type " + result.getClass()
@@ -267,6 +267,19 @@ public class PackageQueryService {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Helper method to convert packages to Json
+     */
+    JsonObjectBuilder toJson(Package p) {
+        JsonObjectBuilder json = Json.createObjectBuilder();
+        json.add("id", p.id());
+        json.add("length", p.length());
+        json.add("width", p.width());
+        json.add("height", p.height());
+        json.add("destination", p.destination());
+        return json;
     }
 
 }
