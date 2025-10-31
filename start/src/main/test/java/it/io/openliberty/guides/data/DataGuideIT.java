@@ -12,41 +12,88 @@
 package it.io.openliberty.guides.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.StringReader;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
 
-
+/**
+ * Integration tests for the PackageQueryService endpoints
+ */
 public class DataGuideIT {
 
     private static final String PORT = System.getProperty("http.port");
     private static final String URL = "http://localhost:" + PORT
-                                        + "/shipping/packageQuery";
+            + "/shipping/packageQuery";
 
     private Client client;
 
     @BeforeEach
     public void beforeEach() {
-      client = ClientBuilder.newClient();
+        client = ClientBuilder.newClient();
     }
 
-        @AfterEach
+    @AfterEach
     public void afterEach() {
-      client.close();
+        client.close();
     }
-
 
     @Test
-    public void testQueries() throws Exception {
+    public void testGetQueries() throws Exception {
         Response response = client.target(URL).request().get();
-        assertEquals(200, response.getStatus(),
-            "Incorrect response code from: " + URL);
+        assertEquals(200, response.getStatus(), "Incorrect response code from: " + URL);
+        String jsonReponse = response.readEntity(String.class);
+        JsonArray json = Json.createReader(new StringReader(jsonReponse)).readArray();
+        // System.out.println(json);
+        JsonObject findByLengthGreaterThan = Json.createObjectBuilder()
+                .add("name", "findByLengthGreaterThan")
+                .add("parameters", Json.createArrayBuilder().add("length").build())
+                .add("types", Json.createArrayBuilder().add("float").build()).build();
 
+        JsonObject findByLengthGreaterThanAndWidthLessThan = Json.createObjectBuilder()
+                .add("name", "findByLengthGreaterThanAndWidthLessThan")
+                .add("parameters",
+                        Json.createArrayBuilder().add("length").add("width").build())
+                .add("types",
+                        Json.createArrayBuilder().add("float").add("float").build())
+                .build();
+
+        assertTrue(json.contains(findByLengthGreaterThan), json.toString());
+        assertTrue(json.contains(findByLengthGreaterThanAndWidthLessThan),
+                json.toString());
+    }
+
+    @Test
+    public void testGetData() throws Exception {
+        Response response = client.target(URL).request().post(Entity.json(
+                "{\"method\":\"getPackagesArrivingIn\",\"parameters\":[\"Rochester\"],"
+                        + "\"types\":[\"java.lang.String\"]}"));
+        assertEquals(200, response.getStatus(), "Incorrect response code from: " + URL);
+        String jsonReponse = response.readEntity(String.class);
+        JsonArray json = Json.createReader(new StringReader(jsonReponse)).readArray();
+        System.out.println(json);
+
+        JsonObject id1 = Json.createObjectBuilder().add("id", 1).add("length", 10.0)
+                .add("width", 20.0).add("height", 10.0).add("destination", "Rochester")
+                .build();
+
+        JsonObject id4 = Json.createObjectBuilder().add("id", 4).add("length", 24.0)
+                .add("width", 15.0).add("height", 6.0).add("destination", "Rochester")
+                .build();
+
+        assertTrue(json.contains(id1), json.toString());
+        assertTrue(json.contains(id4), json.toString());
     }
 
 }
