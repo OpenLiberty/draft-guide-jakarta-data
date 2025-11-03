@@ -53,10 +53,14 @@ ID  Length  Width   Height  Destination
 8   2       15      18      Rochester
 ```
 
-You can then try some of the queries which use input to see how it changes which packages are returned.
+You can then try some of the queries which use input to see how it changes which packages are returned. If you find the query named `findByLengthGreaterThan` and enter `25` in the box labeled length, you can then run the query by clicking the ➜ button. The result should look like the following, with only lengths greater than 25:
 
+```
+ID 	Length 	Width  Height 	Destination
+2   30      10	   10      Austin
+16  38      16     25      Markham
+```
 
-//TODO add an example with input here
 
 [role='command']
 include::{common-includes}/twyb-end.adoc[]
@@ -157,8 +161,6 @@ return all entities, but by using the `@By` annotation, it can be limited to ent
 List<Package> getPackagesArrivingIn(@By("destination") String destination);
 ```
 
-//TODO should this mention --parameters at this point?
-
 === Renaming provided methods
 If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the `@Insert` annotation you can create a method named `add` instead of the `insert` method inherited from `CrudRepository` like this:
 
@@ -184,7 +186,7 @@ List<Package> sortedByHeightAscending();
 ```java
 @OrderBy(value = "height", descending = true)
 ```
-//TODO rename? Runtime Modifications...?
+
 == Sort, Limit, and Pagination 
 Jakarta Data provides the `Sort` and `Limit` classes to create queries which can be modified at runtime. It also includes a mechanism for pagination to better handle large sets of results.
 
