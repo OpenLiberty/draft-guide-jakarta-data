@@ -11,7 +11,7 @@
 :page-duration: 15 minutes
 :page-releasedate: 2024-01-01
 :page-majorupdateddate: 2023-01-01
-Description - TODO
+:page-description: Description - TODO
 :page-tags: ['jakarta-ee']
 :page-related-guides: []
 :page-permalink: /guides/{projectid}
@@ -41,7 +41,8 @@ include::{common-includes}/twyb-intro.adoc[]
 
 This application allows you to run queries against a set of shipping packages which have a variety of dimensions and destinations.  Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the query data similar to the following:
 
-```
+[role='no-copy']
+----
 ID  Length  Width   Height  Destination
 1   10      20      10      Rochester
 2   30      10      10      Austin
@@ -51,15 +52,16 @@ ID  Length  Width   Height  Destination
 6   8       5       3       Rochester
 7   16      3       15      RTP
 8   2       15      18      Rochester
-```
+----
 
 You can then try some of the queries which use input to see how it changes which packages are returned. If you find the query named `findByLengthGreaterThan` and enter `25` in the box labeled length, you can then run the query by clicking the ➜ button. The result should look like the following, with only lengths greater than 25:
 
-```
+[role='no-copy']
+----
 ID 	Length 	Width  Height 	Destination
 2   30      10	   10      Austin
 16  38      16     25      Markham
-```
+----
 
 
 [role='command']
@@ -77,13 +79,7 @@ endif::[]
 [role='command']
 include::{common-includes}/devmode-lmp33-start.adoc[]
 
-In Jakarta Data an entity defines the structure for persisting a piece of data. This structure is represented by a Java object and its associated fields. Start by creating a simple record class.
-
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Create the `Package` class.#
-`src/main/java/io/openliberty/guides/data/Package.java`
-----
+In Jakarta Data an entity defines the structure for persisting a piece of data. This structure is represented by a Java object and its associated fields. The entity you will work with in this guide is a record class called `Package.java`, which contains a few fields.
 
 Package.java
 [source, Java, linenums, role='code_column hide_tags=copyright,app-only']
@@ -91,13 +87,6 @@ Package.java
 include::finish/src/main/java/io/openliberty/guides/data/Package.java[]
 ----
 
-This is a simple entity, with a few fields. 
-
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Create the `Packages.java` class.#
-`src/main/java/io/openliberty/guides/data/Packages.java`
-----
 
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright,query-by-method,annotations,sorting,query-anno']
@@ -105,7 +94,7 @@ Packages.java
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
-Repositories in Jakarta Data provide a simplified means for interacting with persistent data. They are annotated with the `@Repository` annotation. Jakarta Data provides several built in Repositories with common methods which can be extended with application specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
+A common pattern with respositories is to use the plural of the entity, so the repository you will be working with in this guide is called `Packages.java`. Repositories in Jakarta Data provide a simplified means for interacting with persistent data. They are annotated with the `@Repository` annotation. Jakarta Data provides several built in Repositories with common methods which can be extended with application specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
 
 [hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist an entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities.
 
