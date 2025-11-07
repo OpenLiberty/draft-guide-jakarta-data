@@ -37,16 +37,16 @@ import jakarta.data.page.PageRequest;
 // tag::CrudRepository[]
 public interface Packages extends CrudRepository<Package, Integer> {
     // end::CrudRepository[]
-
     // tag::query-by-method[]
+
     List<Package> findByLengthGreaterThan(float length);
 
     List<Package> findByLengthGreaterThanAndWidthLessThan(float length, float width);
 
     List<Package> findByHeightBetween(float minHeight, float maxHeight);
     // end::query-by-method[]
-
     // tag::annotations[]
+
     @Find
     List<Package> getPackagesArrivingIn(@By("destination") String destination);
 
@@ -57,8 +57,8 @@ public interface Packages extends CrudRepository<Package, Integer> {
     @OrderBy("height")
     List<Package> sortedByHeightAscending();
     // end::annotations[]
-
     // tag::sorting[]
+
     @Find
     List<Package> sorted(Sort<?> sortBy);
 
@@ -69,12 +69,13 @@ public interface Packages extends CrudRepository<Package, Integer> {
     @Find
     Page<Package> all(PageRequest pageRequest);
     // end::sorting[]
-
     // tag::query-anno[]
+
     @Query("WHERE length > :threshold OR height > :threshold OR width > :threshold")
     List<Package> withDimensionLargerThan(float threshold);
 
     @Query("WHERE length + width + height > ?1")
     List<Package> withTotalDimensionOver(float threshold);
     // end::query-anno[]
+
 }
