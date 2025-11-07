@@ -11,19 +11,27 @@
 // end::copyright[]
 package io.openliberty.guides.data;
 
+// tag::query-by-method[]
 import java.util.List;
+// end::query-by-method[]
 
+import jakarta.data.repository.Repository;
 import jakarta.data.repository.CrudRepository;
+// tag::annotations[]
 import jakarta.data.repository.Find;
+import jakarta.data.repository.By;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.OrderBy;
+// end::annotations[]
+// tag::query-anno[]
 import jakarta.data.repository.Query;
+// end::query-anno[]
+// tag::sorting[]
 import jakarta.data.Limit;
 import jakarta.data.Sort;
 import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
-import jakarta.data.repository.By;
-import jakarta.data.repository.Repository;
+// end::sorting[]
 
 @Repository
 // tag::CrudRepository[]
