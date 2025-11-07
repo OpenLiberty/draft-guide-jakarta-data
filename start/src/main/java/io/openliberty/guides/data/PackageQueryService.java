@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import java.util.stream.Stream;
 
 import jakarta.data.Limit;
 import jakarta.data.Sort;
+import jakarta.data.page.PageRequest;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -36,16 +38,25 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
+/**
+ * A RESTful Web Services resource that provides functionality for querying
+ * packages. It provides a list of available queries in the {@link Packages}
+ * class as well as allows those methods to be called through reflection.
+ */
 @Path("/packageQuery")
 public class PackageQueryService {
 
     @Inject
     Packages packages;
 
-    // TODO see if some of these could be included
+    /**
+     * Methods that aren't queries or won't make sense in the UI
+     */
     static List<String> excludedMethods = new ArrayList<String>();
     static {
+        excludedMethods.add("add");
         excludedMethods.add("insert");
         excludedMethods.add("insertAll");
         excludedMethods.add("update");
@@ -70,6 +81,12 @@ public class PackageQueryService {
         primitiveMap.put("short", Short.TYPE);
     }
 
+    /**
+     * GET method to return an array of the available query methods from the
+     * {@link Packages} class.
+     *
+     * @return A JSON array containing details of available query methods.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String queries() {
@@ -77,7 +94,7 @@ public class PackageQueryService {
         JsonArrayBuilder queryList = Json.createArrayBuilder();
 
         for (Method m : methods) {
-            if (excludedMethods.contains(m.getName())) {
+            if (excludeMethod(m)) {
                 continue;
             }
 
@@ -106,13 +123,21 @@ public class PackageQueryService {
 
     }
 
+    /**
+     * POST method to execute a query method based on the provided JSON input.
+     *
+     * @param jsonString JSON string containing method name, parameters, and their
+     *                   types.
+     * @return A JSON array of results from the executed method.
+     */
     @SuppressWarnings("unchecked")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String callQuery(String jsonString) {
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
+    public Response callQuery(String jsonString) {
         System.out.println(jsonString);
         JsonObject json = Json.createReader(new StringReader(jsonString)).readObject();
+        JsonArrayBuilder returnList = Json.createArrayBuilder();
         try {
             List<Object> params = new ArrayList<Object>();
             List<Class<?>> types = new ArrayList<Class<?>>();
@@ -127,8 +152,9 @@ public class PackageQueryService {
                         types.add(Class.forName(type));
                     }
                 } catch (ClassNotFoundException e) {
-                    // TODO Reply to Client with error message
                     e.printStackTrace();
+                    return Response.status(404).type(MediaType.TEXT_PLAIN)
+                            .entity("The requested Query does not exist.").build();
                 }
                 params.add(getTypedValue(jsonParams, i, types.get(i)));
             }
@@ -138,35 +164,40 @@ public class PackageQueryService {
             checkForID(method, params);
             Object result = method.invoke(packages, params.toArray());
 
-            JsonArrayBuilder returnList = Json.createArrayBuilder();
             if (result instanceof Stream) {
                 ((Stream<?>) result).forEach(p -> {
-                    returnList.add(((Package) p).toJson());
+                    returnList.add(toJson((Package) p));
                 });
             } else if (result instanceof List) {
                 ((List<?>) result).forEach(p -> {
-                    returnList.add(((Package) p).toJson());
+                    returnList.add(toJson((Package) p));
                 });
             } else if (result instanceof Optional) {
-                returnList.add(((Optional<Package>) result).get().toJson());
+                returnList.add(toJson(((Optional<Package>) result).get()));
             } else {
                 throw new UnsupportedOperationException(
                         "Return type " + result.getClass()
                                 + " not handled in PackageQueryService.java");
             }
-            return returnList.build().toString();
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException e) {
-            // TODO Reply to Client with error message
-            e.printStackTrace();
-
             if (e instanceof InvocationTargetException) {
                 if (e.getCause() != null) {
-                    return e.getCause().toString();
+                    return Response.status(404).type(MediaType.TEXT_PLAIN)
+                            .entity(e.getCause().toString()).build();
                 }
+            } else if (e instanceof IllegalArgumentException) {
+                return Response.status(404).type(MediaType.TEXT_PLAIN)
+                        .entity("Invalid input for selected method. " + e.getMessage())
+                        .build();
+            } else {
+                e.printStackTrace();
+                return Response.status(404).type(MediaType.TEXT_PLAIN)
+                        .entity("Error. " + e.getMessage()).build();
             }
         }
-        return "";
+        return Response.ok(returnList.build().toString(), MediaType.APPLICATION_JSON)
+                .build();
     }
 
     Object getTypedValue(JsonArray array, int index, Class<?> type) {
@@ -209,7 +240,12 @@ public class PackageQueryService {
         } else {
             return Limit.of(Integer.parseInt(limit));
         }
-        // TODO catch java.lang.NumberFormatException and return error message to user
+    }
+
+    // TODO handle pagerequest
+    PageRequest parsePageRequest(String page, String maxPageLength) {
+        return PageRequest.ofPage(Long.parseLong(page), Integer.parseInt(maxPageLength),
+                false);
     }
 
     // Due to type erasure we need to handle id as a special case
@@ -222,7 +258,28 @@ public class PackageQueryService {
         }
     }
 
-    boolean excludedMethods(Method m) {
-        return excludedMethods.contains(m.getName());
+    boolean excludeMethod(Method m) {
+        if (excludedMethods.contains(m.getName())) {
+            return true;
+        }
+        // exclude methods that accept an Order
+        if (Arrays.asList(m.getParameterTypes()).contains(jakarta.data.Order.class)) {
+            return true;
+        }
+        return false;
     }
+
+    /**
+     * Helper method to convert packages to Json
+     */
+    JsonObjectBuilder toJson(Package p) {
+        JsonObjectBuilder json = Json.createObjectBuilder();
+        json.add("id", p.id());
+        json.add("length", p.length());
+        json.add("width", p.width());
+        json.add("height", p.height());
+        json.add("destination", p.destination());
+        return json;
+    }
+
 }
