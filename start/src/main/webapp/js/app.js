@@ -2,8 +2,8 @@ async function loadQueries() {
     const response = await fetch("shipping/packageQuery")
 
     if (response.ok) {
-        const list = await response.json();
-        list.forEach(addToQueries)
+        const list = await response.json()
+        list.reverse().forEach(addToQueries) //reverse puts findAll at the top
     }
 }
 
@@ -23,6 +23,8 @@ function addToQueries(item, index) {
         } else {
             input = document.createElement("input")
             input.placeholder = param
+            input.title = titleText(param)
+
         }
         input.setAttribute("jtype", item.types[index])
         container.appendChild(input)
@@ -49,12 +51,8 @@ async function callQuery(index) {
     //Process Inputs
     var params = []
     var types = []
-    console.log(node)
 
-    console.log(node.children)
-    console.log(Array.from(node.children))
     Array.from(node.children).forEach(input => {
-        console.log(input.tagName)
         if (input.tagName == "INPUT") { //input
             params.push(input.value)
             types.push(input.getAttribute("jtype"))
@@ -74,7 +72,6 @@ async function callQuery(index) {
 
     query.parameters = params
     query.types = types
-    console.log(query)
 
     //Return json object
     const response = await fetch("shipping/packageQuery", {
@@ -93,14 +90,12 @@ async function callQuery(index) {
 async function processResponse(response) {
     if (response.ok) {
         const body = await response.text();
-        console.log(body)
         if (body.length > 0) {
             var node = document.getElementById("resultsSection")
             node.style = "" //Make the results section visible
 
             try { //Return useful server exception to user
                 var json = JSON.parse(body)
-                console.log(json)
             } catch (error) {
                 var div = document.createElement("div")
                 div.innerHTML = body
@@ -111,9 +106,7 @@ async function processResponse(response) {
             var length = table.rows.length
             for (let i = 0; i < length; i++) table.deleteRow(0) //clear table
 
-            console.log("removed table")
             for (m of json) {
-                console.log("inserting row")
                 var row = table.insertRow()
                 row.insertCell().innerHTML = m.id;
                 row.insertCell().innerHTML = m.length;
@@ -127,7 +120,6 @@ async function processResponse(response) {
         toast(message, 0)
     }
 
-    console.log(response);
 }
 
 function sortDropDown(options) {
@@ -152,6 +144,20 @@ function sortDropDown(options) {
     div.appendChild(params)
     div.appendChild(sort)
     return div
+}
+
+function titleText(param) {
+    switch (param) {
+        case "pageRequest":
+            return "A pageRequest can be specified as a single number for a specific page (with page length of 10)" +
+                " or as a pair of numbers separated by a comma for page,pageSize e.g. 2,5"
+        case "limit":
+            return "A limit can be specified as a single number to indicate the maximum number of items to return, or" +
+                " as a hyphen separated pair of numbers for lower and upper boundaries, e.g. 3-7"
+        default:
+            return ""
+    }
+
 }
 
 function toast(message, index) {

@@ -51,12 +51,8 @@ async function callQuery(index) {
     //Process Inputs
     var params = []
     var types = []
-    console.log(node)
 
-    console.log(node.children)
-    console.log(Array.from(node.children))
     Array.from(node.children).forEach(input => {
-        console.log(input.tagName)
         if (input.tagName == "INPUT") { //input
             params.push(input.value)
             types.push(input.getAttribute("jtype"))
@@ -76,7 +72,6 @@ async function callQuery(index) {
 
     query.parameters = params
     query.types = types
-    console.log(query)
 
     //Return json object
     const response = await fetch("shipping/packageQuery", {
@@ -95,14 +90,12 @@ async function callQuery(index) {
 async function processResponse(response) {
     if (response.ok) {
         const body = await response.text();
-        console.log(body)
         if (body.length > 0) {
             var node = document.getElementById("resultsSection")
             node.style = "" //Make the results section visible
 
             try { //Return useful server exception to user
                 var json = JSON.parse(body)
-                console.log(json)
             } catch (error) {
                 var div = document.createElement("div")
                 div.innerHTML = body
@@ -113,9 +106,7 @@ async function processResponse(response) {
             var length = table.rows.length
             for (let i = 0; i < length; i++) table.deleteRow(0) //clear table
 
-            console.log("removed table")
             for (m of json) {
-                console.log("inserting row")
                 var row = table.insertRow()
                 row.insertCell().innerHTML = m.id;
                 row.insertCell().innerHTML = m.length;
@@ -129,7 +120,6 @@ async function processResponse(response) {
         toast(message, 0)
     }
 
-    console.log(response);
 }
 
 function sortDropDown(options) {
