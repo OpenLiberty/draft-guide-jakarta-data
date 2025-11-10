@@ -2,8 +2,8 @@ async function loadQueries() {
     const response = await fetch("shipping/packageQuery")
 
     if (response.ok) {
-        const list = await response.json();
-        list.forEach(addToQueries)
+        const list = await response.json()
+        list.reverse().forEach(addToQueries) //reverse puts findAll at the top
     }
 }
 
@@ -23,6 +23,8 @@ function addToQueries(item, index) {
         } else {
             input = document.createElement("input")
             input.placeholder = param
+            input.title = titleText(param)
+
         }
         input.setAttribute("jtype", item.types[index])
         container.appendChild(input)
@@ -152,6 +154,20 @@ function sortDropDown(options) {
     div.appendChild(params)
     div.appendChild(sort)
     return div
+}
+
+function titleText(param) {
+    switch (param) {
+        case "pageRequest":
+            return "A pageRequest can be specified as a single number for a specific page (with page length of 10)" +
+                " or as a pair of numbers separated by a comma for page,pageSize e.g. 2,5"
+        case "limit":
+            return "A limit can be specified as a single number to indicate the maximum number of items to return, or" +
+                " as a hyphen separated pair of numbers for lower and upper boundaries, e.g. 3-7"
+        default:
+            return ""
+    }
+
 }
 
 function toast(message, index) {

@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 
 import jakarta.data.Limit;
 import jakarta.data.Sort;
+import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
@@ -172,6 +173,10 @@ public class PackageQueryService {
                 ((List<?>) result).forEach(p -> {
                     returnList.add(toJson((Package) p));
                 });
+            } else if (result instanceof Page) {
+                ((Page<?>) result).forEach(p -> {
+                    returnList.add(toJson((Package) p));
+                });
             } else if (result instanceof Optional) {
                 returnList.add(toJson(((Optional<Package>) result).get()));
             } else {
@@ -217,6 +222,9 @@ public class PackageQueryService {
             // Limit
         } else if (type.equals(Limit.class)) {
             return parseLimit(array.getString(index));
+            // PageRequest
+        } else if (type.equals(PageRequest.class)) {
+            return parsePageRequest(array.getString(index));
             // Strings
         } else {
             return array.getString(index);
@@ -242,10 +250,13 @@ public class PackageQueryService {
         }
     }
 
-    // TODO handle pagerequest
-    PageRequest parsePageRequest(String page, String maxPageLength) {
-        return PageRequest.ofPage(Long.parseLong(page), Integer.parseInt(maxPageLength),
-                false);
+    PageRequest parsePageRequest(String pageRequest) {
+        if (pageRequest.contains(",")) {
+            String[] split = pageRequest.split(",");
+            return PageRequest.ofPage(Long.parseLong(split[0]),
+                    Integer.parseInt(split[1]), false);
+        }
+        return PageRequest.ofPage(Long.parseLong(pageRequest));
     }
 
     // Due to type erasure we need to handle id as a special case

@@ -11,34 +11,42 @@
 // end::copyright[]
 package io.openliberty.guides.data;
 
+// tag::query-by-method[]
 import java.util.List;
+// end::query-by-method[]
 
+import jakarta.data.repository.Repository;
 import jakarta.data.repository.CrudRepository;
+// tag::annotations[]
 import jakarta.data.repository.Find;
+import jakarta.data.repository.By;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.OrderBy;
+// end::annotations[]
+// tag::query-anno[]
 import jakarta.data.repository.Query;
+// end::query-anno[]
+// tag::sorting[]
 import jakarta.data.Limit;
 import jakarta.data.Sort;
 import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
-import jakarta.data.repository.By;
-import jakarta.data.repository.Repository;
+// end::sorting[]
 
 @Repository
 // tag::CrudRepository[]
 public interface Packages extends CrudRepository<Package, Integer> {
     // end::CrudRepository[]
-
     // tag::query-by-method[]
+
     List<Package> findByLengthGreaterThan(float length);
 
     List<Package> findByLengthGreaterThanAndWidthLessThan(float length, float width);
 
     List<Package> findByHeightBetween(float minHeight, float maxHeight);
     // end::query-by-method[]
-
     // tag::annotations[]
+
     @Find
     List<Package> getPackagesArrivingIn(@By("destination") String destination);
 
@@ -49,24 +57,25 @@ public interface Packages extends CrudRepository<Package, Integer> {
     @OrderBy("height")
     List<Package> sortedByHeightAscending();
     // end::annotations[]
-
     // tag::sorting[]
+
     @Find
     List<Package> sorted(Sort<?> sortBy);
 
     @Find
     @OrderBy("length")
-    List<Package> longestWithLimit(Limit limit);
+    List<Package> shortestWithLimit(Limit limit);
 
     @Find
     Page<Package> all(PageRequest pageRequest);
     // end::sorting[]
-
     // tag::query-anno[]
+
     @Query("WHERE length > :threshold OR height > :threshold OR width > :threshold")
     List<Package> withDimensionLargerThan(float threshold);
 
     @Query("WHERE length + width + height > ?1")
     List<Package> withTotalDimensionOver(float threshold);
     // end::query-anno[]
+
 }

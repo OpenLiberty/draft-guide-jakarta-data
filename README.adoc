@@ -210,9 +210,9 @@ Jakarta Data queries can restrict the number of entities returned at runtime by 
 ```java
 @Find
 @OrderBy("length")
-List<Package> longestWithLimit(Limit limit);
+List<Package> shortestWithLimit(Limit limit);
 ```
-This method will return the longest packages in order from longest to shortest, but limited only to only the specified number of results.
+This method will return the shortest packages in order from shortest to longest, but limited only to only the specified number of results.
 
 Limits can be created and supplied using the `Limit` class's static methods:
 ```java
