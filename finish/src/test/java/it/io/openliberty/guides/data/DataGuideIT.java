@@ -55,7 +55,7 @@ public class DataGuideIT {
         assertEquals(200, response.getStatus(), "Incorrect response code from: " + URL);
         String jsonReponse = response.readEntity(String.class);
         JsonArray json = Json.createReader(new StringReader(jsonReponse)).readArray();
-        // System.out.println(json);
+
         JsonObject findByLengthGreaterThan = Json.createObjectBuilder()
                 .add("name", "findByLengthGreaterThan")
                 .add("parameters", Json.createArrayBuilder().add("length").build())
@@ -82,7 +82,6 @@ public class DataGuideIT {
         assertEquals(200, response.getStatus(), "Incorrect response code from: " + URL);
         String jsonReponse = response.readEntity(String.class);
         JsonArray json = Json.createReader(new StringReader(jsonReponse)).readArray();
-        System.out.println(json);
 
         JsonObject id1 = Json.createObjectBuilder().add("id", 1).add("length", 10.0)
                 .add("width", 20.0).add("height", 10.0).add("destination", "Rochester")

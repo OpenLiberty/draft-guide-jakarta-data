@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 
 import jakarta.data.Limit;
 import jakarta.data.Sort;
+import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
@@ -98,20 +99,14 @@ public class PackageQueryService {
                 continue;
             }
 
-            System.out.println();
-            System.out.println("method:   " + m.getName() + "    --------");
-
             JsonObjectBuilder function = Json.createObjectBuilder();
             function.add("name", m.getName());
             JsonArrayBuilder params = Json.createArrayBuilder();
             JsonArrayBuilder types = Json.createArrayBuilder();
 
-            System.out.println("params:   --------");
             for (Parameter p : m.getParameters()) {
                 params.add(p.getName());
                 types.add(p.getType().getName());
-                System.out.println(p.getName());
-                System.out.println(p.getType().getName());
             }
             function.add("parameters", params);
             function.add("types", types);
@@ -135,7 +130,6 @@ public class PackageQueryService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response callQuery(String jsonString) {
-        System.out.println(jsonString);
         JsonObject json = Json.createReader(new StringReader(jsonString)).readObject();
         JsonArrayBuilder returnList = Json.createArrayBuilder();
         try {
@@ -172,6 +166,10 @@ public class PackageQueryService {
                 ((List<?>) result).forEach(p -> {
                     returnList.add(toJson((Package) p));
                 });
+            } else if (result instanceof Page) {
+                ((Page<?>) result).forEach(p -> {
+                    returnList.add(toJson((Package) p));
+                });
             } else if (result instanceof Optional) {
                 returnList.add(toJson(((Optional<Package>) result).get()));
             } else {
@@ -201,7 +199,6 @@ public class PackageQueryService {
     }
 
     Object getTypedValue(JsonArray array, int index, Class<?> type) {
-        System.out.println("type: " + type);
         // Numbers
         if (type.equals(Integer.class) || type.equals(Integer.TYPE)) {
             return Integer.parseInt(array.getString(index));
@@ -217,6 +214,9 @@ public class PackageQueryService {
             // Limit
         } else if (type.equals(Limit.class)) {
             return parseLimit(array.getString(index));
+            // PageRequest
+        } else if (type.equals(PageRequest.class)) {
+            return parsePageRequest(array.getString(index));
             // Strings
         } else {
             return array.getString(index);
@@ -224,7 +224,6 @@ public class PackageQueryService {
     }
 
     Sort<?> parseSort(String sort) {
-        System.out.println("sort: " + sort);
         if (sort.endsWith("asc")) {
             return Sort.asc(sort.substring(0, sort.lastIndexOf(" asc")));
         } else {
@@ -242,10 +241,13 @@ public class PackageQueryService {
         }
     }
 
-    // TODO handle pagerequest
-    PageRequest parsePageRequest(String page, String maxPageLength) {
-        return PageRequest.ofPage(Long.parseLong(page), Integer.parseInt(maxPageLength),
-                false);
+    PageRequest parsePageRequest(String pageRequest) {
+        if (pageRequest.contains(",")) {
+            String[] split = pageRequest.split(",");
+            return PageRequest.ofPage(Long.parseLong(split[0]),
+                    Integer.parseInt(split[1]), false);
+        }
+        return PageRequest.ofPage(Long.parseLong(pageRequest));
     }
 
     // Due to type erasure we need to handle id as a special case

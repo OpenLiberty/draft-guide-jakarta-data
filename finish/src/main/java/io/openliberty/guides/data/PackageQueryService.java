@@ -99,20 +99,14 @@ public class PackageQueryService {
                 continue;
             }
 
-            System.out.println();
-            System.out.println("method:   " + m.getName() + "    --------");
-
             JsonObjectBuilder function = Json.createObjectBuilder();
             function.add("name", m.getName());
             JsonArrayBuilder params = Json.createArrayBuilder();
             JsonArrayBuilder types = Json.createArrayBuilder();
 
-            System.out.println("params:   --------");
             for (Parameter p : m.getParameters()) {
                 params.add(p.getName());
                 types.add(p.getType().getName());
-                System.out.println(p.getName());
-                System.out.println(p.getType().getName());
             }
             function.add("parameters", params);
             function.add("types", types);
@@ -136,7 +130,6 @@ public class PackageQueryService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response callQuery(String jsonString) {
-        System.out.println(jsonString);
         JsonObject json = Json.createReader(new StringReader(jsonString)).readObject();
         JsonArrayBuilder returnList = Json.createArrayBuilder();
         try {
@@ -206,7 +199,6 @@ public class PackageQueryService {
     }
 
     Object getTypedValue(JsonArray array, int index, Class<?> type) {
-        System.out.println("type: " + type);
         // Numbers
         if (type.equals(Integer.class) || type.equals(Integer.TYPE)) {
             return Integer.parseInt(array.getString(index));
@@ -232,7 +224,6 @@ public class PackageQueryService {
     }
 
     Sort<?> parseSort(String sort) {
-        System.out.println("sort: " + sort);
         if (sort.endsWith("asc")) {
             return Sort.asc(sort.substring(0, sort.lastIndexOf(" asc")));
         } else {
