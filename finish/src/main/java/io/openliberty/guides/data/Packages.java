@@ -64,7 +64,7 @@ public interface Packages extends CrudRepository<Package, Integer> {
 
     @Find
     @OrderBy("length")
-    List<Package> longestWithLimit(Limit limit);
+    List<Package> shortestWithLimit(Limit limit);
 
     @Find
     Page<Package> all(PageRequest pageRequest);
