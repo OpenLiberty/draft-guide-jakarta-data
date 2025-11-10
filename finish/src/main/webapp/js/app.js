@@ -23,6 +23,8 @@ function addToQueries(item, index) {
         } else {
             input = document.createElement("input")
             input.placeholder = param
+            input.title = titleText(param)
+
         }
         input.setAttribute("jtype", item.types[index])
         container.appendChild(input)
@@ -152,6 +154,16 @@ function sortDropDown(options) {
     div.appendChild(params)
     div.appendChild(sort)
     return div
+}
+
+function titleText(param) {
+    switch (param) {
+        case "pageRequest":
+            return "A pageRequest can be specified as a single number for a specific page (with page length of 10) or as a pair of numbers separated by a comma for page,pageSize e.g. 2,5"
+        default:
+            return ""
+    }
+
 }
 
 function toast(message, index) {
