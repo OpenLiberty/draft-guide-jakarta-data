@@ -280,11 +280,12 @@ List<Package> withTotalDimensionOver(float threshold);
 See the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_data_query_language[Jakarta Data specification] for a more comprehensive overview of the Jakarta Data Query Language.
 
 == Where to next?
-Experiment by creating your own queries.  Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application.
+Experiment by creating your own queries.  Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application. For example, you could add a query to find packages arriving in a specific destination, which is ordered by width:
 
-
-//TODO add ideas for queries here
-
+```java
+    @Find
+    @OrderBy("width")
+    List<Package> byWidthArrivingIn(@By("destination") String destination);
+```
 
 //Eventually link to an Advanced Guide as well.
-//Include Static Metamodel
