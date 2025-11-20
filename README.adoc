@@ -41,7 +41,7 @@ include::{common-includes}/twyb-intro-mvnw.adoc[]
 
 This application allows you to run queries against a set of shipping packages which have a variety of dimensions and destinations.  Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the query data similar to the following:
 
-[role="no-copy"]
+[role="no_copy"]
 ----
 ID  Length  Width   Height  Destination
 1   10      20      10      Rochester
@@ -56,16 +56,16 @@ ID  Length  Width   Height  Destination
 
 You can then try some of the queries which use input to see how it changes which packages are returned. If you find the query named `findByLengthGreaterThan` and enter `25` in the box labeled length, you can then run the query by clicking the ➜ button. The result should look like the following, with only lengths greater than 25:
 
-[role="no-copy"]
+[role="no_copy"]
 ----
-ID 	Length 	Width  Height 	Destination
+ID  Length  Width  Height  Destination
 2   30      10	   10      Austin
 16  38      16     25      Markham
 ----
 
 
 [role='command']
-include::{common-includes}/twyb-end.adoc[]
+include::{common-includes}/twyb-end-mvnw.adoc[]
 
 == Creating an Entity and Repository
 
