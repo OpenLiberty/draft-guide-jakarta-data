@@ -26,7 +26,7 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 == What you'll learn
 
-You will learn how to use Jakarta Data to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the Jakarta Data Query Language (JDQL).
+You will learn how to use https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0[Jakarta Data] to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_data_query_language[Jakarta Data Query Language (JDQL)].
 
 The application demonstrates a number of different queries that are possible with Jakarta Data. Once you have completed the guide you can try writing your own queries with the provided sample data.
 
