@@ -26,7 +26,7 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 == What you'll learn
 
-You will learn how to use Jakarta Data to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the Jakarta Data Query Language (JDQL).
+You will learn how to use https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0[Jakarta Data] to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_data_query_language[Jakarta Data Query Language (JDQL)].
 
 The application demonstrates a number of different queries that are possible with Jakarta Data. Once you have completed the guide you can try writing your own queries with the provided sample data.
 
@@ -37,11 +37,11 @@ Jakarta Data is a new data access specification being released with Jakarta EE 1
 include::{common-includes}/gitclone.adoc[]
 
 [role='command']
-include::{common-includes}/twyb-intro.adoc[]
+include::{common-includes}/twyb-intro-mvnw.adoc[]
 
 This application allows you to run queries against a set of shipping packages which have a variety of dimensions and destinations.  Go to the http://localhost:9080 URL to see all the application data. You will see a column of queries, some of which will accept input. To start find the `findAll` query with no inputs. Selecting this will return all of the query data similar to the following:
 
-[role='no-copy']
+[role="no_copy"]
 ----
 ID  Length  Width   Height  Destination
 1   10      20      10      Rochester
@@ -56,16 +56,16 @@ ID  Length  Width   Height  Destination
 
 You can then try some of the queries which use input to see how it changes which packages are returned. If you find the query named `findByLengthGreaterThan` and enter `25` in the box labeled length, you can then run the query by clicking the ➜ button. The result should look like the following, with only lengths greater than 25:
 
-[role='no-copy']
+[role="no_copy"]
 ----
-ID 	Length 	Width  Height 	Destination
+ID  Length  Width  Height  Destination
 2   30      10	   10      Austin
 16  38      16     25      Markham
 ----
 
 
 [role='command']
-include::{common-includes}/twyb-end.adoc[]
+include::{common-includes}/twyb-end-mvnw.adoc[]
 
 == Creating an Entity and Repository
 
