@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2024 IBM Corporation and others.
+ * Copyright (c) 2024, 2026 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -17,19 +17,25 @@ import jakarta.enterprise.event.Startup;
 import jakarta.inject.Inject;
 
 /**
- * A CDI bean that initializes the database with sample data. The initialization
- * is triggered by a Startup CDI event.
+ * Initializes the database with sample Package data at application startup.
+ * This CDI bean observes the Startup event and populates the database with
+ * sample shipping packages if the database is empty. This ensures the
+ * application has demo data available for testing Jakarta Data queries.
  */
 @ApplicationScoped
-public class DbInit {
+public class PackageDataInitializer {
 
     @Inject
     Packages packages;
 
+    /**
+     * Initializes sample package data when the application starts.
+     * Only populates data if the database is empty to avoid duplicates
+     * during Liberty dev mode restarts.
+     *
+     * @param event the CDI Startup event
+     */
     public void init(@Observes Startup event) {
-        // Liberty Dev mode restarts the app without restarting the JVM, which results
-        // in the Db not being cleared from memory, so only add the packages if nothing
-        // exists.
         if (packages.findAll().count() == 0) {
             packages.insert(new Package(1, 10f, 20f, 10f, "Rochester"));
             packages.insert(new Package(2, 30f, 10f, 10f, "Austin"));

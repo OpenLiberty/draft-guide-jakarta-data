@@ -67,7 +67,7 @@ ID  Length  Width  Height  Destination
 [role='command']
 include::{common-includes}/twyb-end-mvnw.adoc[]
 
-== Creating an Entity and Repository
+== Creating an entity and repository
 
 Navigate to the `start` directory to begin.
 ifdef::cloud-hosted[]
@@ -77,7 +77,7 @@ cd /home/project/guide-jakarta-data/start
 endif::[]
 
 [role='command']
-include::{common-includes}/devmode-lmp33-start.adoc[]
+include::{common-includes}/devmode-mvnw-start.adoc[]
 
 In Jakarta Data an entity defines the structure for persisting a piece of data. This structure is represented by a Java object and its associated fields. The entity you will work with in this guide is a record class called `Package.java`, which contains a few fields.
 
