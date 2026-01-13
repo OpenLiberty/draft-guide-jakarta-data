@@ -105,10 +105,9 @@ packages.save(p1);
 packages.delete(p1);
 ```
 
-All three of these methods can be applied to a list of entities using `insertAll`, `saveAll`, and `deleteAll`.
-
-
 == Query by Method Name
+
+Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured.
 
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright,annotations,sorting,query-anno']
@@ -123,11 +122,11 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 
-Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured. This allows methods like `findByLengthGreaterThan(float length)` or `findByHeightAndWidth(float height, float width)` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
+This allows methods like [hotspot=findByLengthGreaterThan file=0]`findByLengthGreaterThan(float length)` or [hotspot=findByHeightBetween file=0]`findByHeightBetween(float minHeight, float maxHeight)` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
 
-For more information on all of the options available with Query by Method name, see the https://jakarta.ee/specifications/data/1.0/jakarta-data-addendum-1.0.pdf[Query by Method Name Extension] of the Jakarta Data specification.
+For more information on all of the options available with Query by Method Name, see the https://jakarta.ee/specifications/data/1.0/jakarta-data-addendum-1.0.pdf[Query by Method Name Extension] of the Jakarta Data specification.
 
-== Using Annotations
+== Querying with method annotations
 
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright,sorting,query-anno']
@@ -141,7 +140,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 
-=== The `@Find` and `@By` Annotations
+=== The `@Find` and `@By` annotations
 The `@Find` annotation indicates that a method is a query which may return entities. Used in isolation it will
 return all entities, but by using the `@By` annotation, it can be limited to entities which match the value provided at runtime:
 
