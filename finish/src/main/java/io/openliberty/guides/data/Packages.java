@@ -78,14 +78,22 @@ public interface Packages extends CrudRepository<Package, Integer> {
     // tag::sorting[]
 
     @Find
+    // tag::Sort[]
     List<Package> sorted(Sort<?> sortBy);
+    // end::Sort[]
 
     @Find
     @OrderBy("length")
+    // tag::Limit[]
     List<Package> shortestWithLimit(Limit limit);
+    // end::Limit[]
 
     @Find
+    // tag::Page[]
+    // tag::PageRequest[]
     Page<Package> all(PageRequest pageRequest);
+    // end::PageRequest[]
+    // end::Page[]
     // end::sorting[]
     // tag::query-anno[]
 

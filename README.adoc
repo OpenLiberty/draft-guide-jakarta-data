@@ -157,12 +157,6 @@ This method is functionally equivalent to the `insert` method provided by [hotsp
 === The `@OrderBy` annotation
 To provide ordering annotatively, you can use the [hotspot=OrderBy file=0]`@OrderBy` annotation. The default ordering direction is ascending. The [hotspot=sortedByHeightAscending file=0]`sortedByHeightAscending` method demonstrates how to obtain all of the packages in the repository sorted by the height parameter.
 
-```java
-@Find
-@OrderBy("height")
-List<Package> sortedByHeightAscending();
-```
-
 `@OrderBy` can also return in descending order by specifying `descending = true` in the annotation:
 
 ```java
@@ -185,7 +179,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 === Sort
-In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a `Sort` parameter to your query method:
+In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a [hotspot=Sort file=0]`Sort` parameter to your query method:
 
 ```java
 @Find
@@ -198,7 +192,7 @@ Sort sort = Sort.desc("height");
 ```
 
 === Limit
-Jakarta Data queries can restrict the number of entities returned at runtime by providing a `Limit` object to the query:
+Jakarta Data queries can restrict the number of entities returned at runtime by providing a [hotspot=Limit file=0]`Limit` object to the query:
 
 ```java
 @Find
@@ -219,14 +213,14 @@ Limit range = Limit.range(10,20);
 
 
 === Paging
-When querying large amounts of data, paging is possible by adding a `PageRequest` parameter to your query method:
+When querying large amounts of data, paging is possible by adding a [hotspot=PageRequest file=0]`PageRequest` parameter to your query method:
 
 ```java
 @Find
 Page<Package> all(PageRequest pageRequest);
 ```
 
-A `PageRequest` can be constructed with the `PageRequest` class's static methods. To request the first page with a page size of 20 results:
+A `PageRequest` can be constructed with the [hotspot=PageRequest file=0]`PageRequest` class's static methods. To request the first [hotspot=Page file=0]`Page` with a page size of 20 results:
 
 ```java
 Page<Package> page = packages.all(PageRequest.ofSize(20));
