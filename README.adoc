@@ -128,6 +128,8 @@ For more information on all of the options available with Query by Method Name, 
 
 == Querying with method annotations
 
+Queries can also be written using method annotations. This allows for additional flexibility in the queries as well as the method names.
+
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright,sorting,query-anno']
 ----
@@ -141,27 +143,19 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 === The `@Find` and `@By` annotations
-The `@Find` annotation indicates that a method is a query which may return entities. Used in isolation it will
-return all entities, but by using the `@By` annotation, it can be limited to entities which match the value provided at runtime:
+The [hotspot=Find file=0]`@Find` annotation indicates that a method is a query which may return entities. Used in isolation it will
+return all entities, but by using the [hotspot=By file=0]`@By` annotation, it can be limited to entities which match the value provided at runtime. The [hotspot=getPackagesArrivingIn file=0]`getPackagesArrivingIn` method demonstrates using the [hotspot=Find file=0]`@Find` and [hotspot=By file=0]`@By`
+annotations to return all packages that are destined for a specific location.
 
-```java
-@Find
-List<Package> getPackagesArrivingIn(@By("destination") String destination);
-```
 
 === Renaming provided methods
-If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the `@Insert` annotation you can create a method named `add` instead of the `insert` method inherited from `CrudRepository` like this:
+If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the [hotspot=Insert file=0]`@Insert` annotation you can create a method named [hotspot=add file=0]`add` instead of the `insert` method inherited from [hotspot=CrudRepository file=0]`CrudRepository`.
 
-```java
-@Insert
-void add(Package p);
-```
-
-This method is functionally equivalent to the `insert` method provided by `CrudRepository`.
+This method is functionally equivalent to the `insert` method provided by [hotspot=CrudRepository file=0]`CrudRepository`.
 
 
-=== The `@OrderBy` Annotation
-To provide ordering annotatively, you can use the `@OrderBy` annotation. The default ordering direction is ascending. To obtain all of the packages in the repository sorted by the height parameter, you could use the following:
+=== The `@OrderBy` annotation
+To provide ordering annotatively, you can use the [hotspot=OrderBy file=0]`@OrderBy` annotation. The default ordering direction is ascending. The [hotspot=sortedByHeightAscending file=0]`sortedByHeightAscending` method demonstrates how to obtain all of the packages in the repository sorted by the height parameter.
 
 ```java
 @Find
@@ -175,7 +169,7 @@ List<Package> sortedByHeightAscending();
 @OrderBy(value = "height", descending = true)
 ```
 
-== Sort, Limit, and Pagination 
+== Sorting, limiting, and paging results
 Jakarta Data provides the `Sort` and `Limit` classes to create queries which can be modified at runtime. It also includes a mechanism for pagination to better handle large sets of results.
 
 Packages.java

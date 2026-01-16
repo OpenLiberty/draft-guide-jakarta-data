@@ -39,23 +39,41 @@ public interface Packages extends CrudRepository<Package, Integer> {
     // end::CrudRepository[]
     // tag::query-by-method[]
 
+    // tag::findByLengthGreaterThan[]
     List<Package> findByLengthGreaterThan(float length);
+    // end::findByLengthGreaterThan[]
 
     List<Package> findByLengthGreaterThanAndWidthLessThan(float length, float width);
 
+    // tag::findByHeightBetween[]
     List<Package> findByHeightBetween(float minHeight, float maxHeight);
+    // end::findByHeightBetween[]
     // end::query-by-method[]
     // tag::annotations[]
 
+    // tag::Find[]
     @Find
+    // end::Find[]
+    // tag::getPackagesArrivingIn[]
+    // tag::By[]
     List<Package> getPackagesArrivingIn(@By("destination") String destination);
+    // end::By[]
+    // end::getPackagesArrivingIn[]
 
+    // tag::Insert[]
     @Insert
+    // end::Insert[]
+    // tag::add[]
     void add(Package p);
+    // end::add[]
 
     @Find
+    // tag::OrderBy[]
     @OrderBy("height")
+    // end::OrderBy[]
+    // tag::sortedByHeightAscending[]
     List<Package> sortedByHeightAscending();
+    // end::sortedByHeightAscending[]
     // end::annotations[]
     // tag::sorting[]
 
