@@ -17,15 +17,24 @@ import jakarta.enterprise.event.Startup;
 import jakarta.inject.Inject;
 
 /**
- * A CDI bean that initializes the database with sample data. The initialization
- * is triggered by a Startup CDI event.
+ * Initializes the database with sample Package data at application startup.
+ * This CDI bean observes the Startup event and populates the database with
+ * sample shipping packages if the database is empty. This ensures the
+ * application has demo data available for testing Jakarta Data queries.
  */
 @ApplicationScoped
-public class DbInit {
+public class PackageDataInitializer {
 
     @Inject
     Packages packages;
 
+    /**
+     * Initializes sample package data when the application starts.
+     * Only populates data if the database is empty to avoid duplicates
+     * during Liberty dev mode restarts.
+     *
+     * @param event the CDI Startup event
+     */
     public void init(@Observes Startup event) {
         // Liberty Dev mode restarts the app without restarting the JVM, which results
         // in the Db not being cleared from memory, so only add the packages if nothing
