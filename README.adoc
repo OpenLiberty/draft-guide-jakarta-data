@@ -179,29 +179,19 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
 === Sort
-In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a [hotspot=Sort file=0]`Sort` parameter to your query method:
+In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a [hotspot=Sort file=0]`Sort` parameter to your query method like in the [hotspot=Sort file=0]`sorted` method.
 
-```java
-@Find
-List<Package> sorted(Sort<?> sortBy);
-```
-
-A `Sort` can be created and provided at runtime using the `Sort` class's static methods:
+A [hotspot=Sort file=0]`Sort` can be created and provided at runtime using the [hotspot=Sort file=0]`Sort` class's static methods:
 ```java
 Sort sort = Sort.desc("height");
 ```
 
 === Limit
-Jakarta Data queries can restrict the number of entities returned at runtime by providing a [hotspot=Limit file=0]`Limit` object to the query:
+Jakarta Data queries can restrict the number of entities returned at runtime by providing a [hotspot=Limit file=0]`Limit` object to the query as shown in the [hotspot=Limit file=0]`shortestWithLimit` method.
 
-```java
-@Find
-@OrderBy("length")
-List<Package> shortestWithLimit(Limit limit);
-```
 This method will return the shortest packages in order from shortest to longest, but limited only to only the specified number of results.
 
-Limits can be created and supplied using the `Limit` class's static methods:
+Limits can be created and supplied using the [hotspot=Limit file=0]`Limit` class's static methods:
 ```java
 Limit limitTen = Limit.of(10);
 ```
@@ -213,14 +203,9 @@ Limit range = Limit.range(10,20);
 
 
 === Paging
-When querying large amounts of data, paging is possible by adding a [hotspot=PageRequest file=0]`PageRequest` parameter to your query method:
+When querying large amounts of data, paging is possible by adding a [hotspot=PageRequest file=0]`PageRequest` parameter to your query method like in the [hotspot=PageRequest file=0]`all` method. This method will return all of the packages, but with the results paginated based on the provided [hotspot=PageRequest file=0]`PageRequest`.
 
-```java
-@Find
-Page<Package> all(PageRequest pageRequest);
-```
-
-A `PageRequest` can be constructed with the [hotspot=PageRequest file=0]`PageRequest` class's static methods. To request the first [hotspot=Page file=0]`Page` with a page size of 20 results:
+A [hotspot=PageRequest file=0]`PageRequest` can be constructed with the [hotspot=PageRequest file=0]`PageRequest` class's static methods. To request the first [hotspot=Page file=0]`Page` with a page size of 20 results:
 
 ```java
 Page<Package> page = packages.all(PageRequest.ofSize(20));
