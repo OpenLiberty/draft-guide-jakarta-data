@@ -233,21 +233,12 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 
-Here is an example of a complex query simplified using JDQL.
-
-```java
-@Query("WHERE length > :threshold OR height > :threshold OR width > :threshold")
-List<Package> withDimensionLargerThan(float threshold);
-```
+For an example of a complex query simplified using JDQL take a look at [hotspot=withAnyDimensionLargerThan file=0]`withAnyDimensionLargerThan`.
 
 This query checks for packages where the length, height, or width are larger than a threshold, which is provided as a parameter in the function. The threshold parameter is referenced in the query using `:threshold`. Achieving the same query with Query by Method Name would result in a very long method name and additional parameters.
 
 
-JDQL supports named and ordinal parameters, as well as a number of operators.
-```java
-@Query("WHERE length + width + height > ?1")
-List<Package> withTotalDimensionOver(float threshold);
-```
+JDQL supports both named and positional parameters, as well as a number of operators. This is shown in the [hotspot=withTotalDimensionOver file=0]`withTotalDimensionOver` query, which sums the length, width, and height of each package to check if the total exceeds a provided threshold. Unlike the named parameter syntax (`:threshold`) used in the previous example, this query uses positional parameter syntax with `?1` to reference the first method parameter.
 
 See the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_data_query_language[Jakarta Data specification] for a more comprehensive overview of the Jakarta Data Query Language.
 

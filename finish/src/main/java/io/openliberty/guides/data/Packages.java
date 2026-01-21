@@ -97,11 +97,15 @@ public interface Packages extends CrudRepository<Package, Integer> {
     // end::sorting[]
     // tag::query-anno[]
 
+    // tag::withAnyDimensionLargerThan[]
     @Query("WHERE length > :threshold OR height > :threshold OR width > :threshold")
-    List<Package> withDimensionLargerThan(float threshold);
+    List<Package> withAnyDimensionLargerThan(float threshold);
+    // end::withAnyDimensionLargerThan[]
 
+    // tag::withTotalDimensionOver[]
     @Query("WHERE length + width + height > ?1")
     List<Package> withTotalDimensionOver(float threshold);
+    // end::withTotalDimensionOver[]
     // end::query-anno[]
 
 }
