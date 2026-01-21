@@ -94,7 +94,7 @@ Packages.java
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
-A common pattern with respositories is to use the plural of the entity, so the repository you will be working with in this guide is called `Packages.java`. Repositories in Jakarta Data provide a simplified means for interacting with persistent data. They are annotated with the `@Repository` annotation. Jakarta Data provides several built in Repositories with common methods which can be extended with application specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
+A common pattern with repositories is to use the plural of the entity, so the repository you will be working with in this guide is called `Packages.java`. Repositories in Jakarta Data provide a simplified means for interacting with persistent data. They are annotated with the `@Repository` annotation. Jakarta Data provides several built-in repositories with common methods which can be extended with application-specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
 
 [hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` will persist an entity only if the entity does not already exist. The `save` option will persist an entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities.
 
@@ -189,7 +189,7 @@ Sort sort = Sort.desc("height");
 === Limit
 Jakarta Data queries can restrict the number of entities returned at runtime by providing a [hotspot=Limit file=0]`Limit` object to the query as shown in the [hotspot=Limit file=0]`shortestWithLimit` method.
 
-This method will return the shortest packages in order from shortest to longest, but limited only to only the specified number of results.
+This method will return the shortest packages in order from shortest to longest, but limited to only the specified number of results.
 
 Limits can be created and supplied using the [hotspot=Limit file=0]`Limit` class's static methods:
 ```java
@@ -219,7 +219,7 @@ Page<Package> anotherPage = packages.all(page.nextPageRequest());
 ```
 
 == The Query Annotation
-The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL.  JDQL is a strict subset of the Jakarta Persistence Query Language (JPQL).
+The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL. JDQL is a strict subset of the Jakarta Persistence Query Language (JPQL).
 
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -233,7 +233,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 
-For an example of a complex query simplified using JDQL take a look at [hotspot=withAnyDimensionLargerThan file=0]`withAnyDimensionLargerThan`.
+For an example of a complex query simplified using JDQL, take a look at [hotspot=withAnyDimensionLargerThan file=0]`withAnyDimensionLargerThan`.
 
 This query checks for packages where the length, height, or width are larger than a threshold, which is provided as a parameter in the function. The threshold parameter is referenced in the query using `:threshold`. Achieving the same query with Query by Method Name would result in a very long method name and additional parameters.
 
@@ -243,7 +243,7 @@ JDQL supports both named and positional parameters, as well as a number of opera
 See the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_data_query_language[Jakarta Data specification] for a more comprehensive overview of the Jakarta Data Query Language.
 
 == Where to next?
-Experiment by creating your own queries.  Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application. For example, you could add a query to find packages arriving in a specific destination, which is ordered by width:
+Experiment by creating your own queries. Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application. For example, you could add a query to find packages arriving at a specific destination, which is ordered by width:
 
 ```java
     @Find
