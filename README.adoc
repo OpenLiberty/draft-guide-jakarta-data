@@ -219,7 +219,7 @@ Page<Package> anotherPage = packages.all(page.nextPageRequest());
 ```
 
 == The Query Annotation
-The `@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL. JDQL is a strict subset of the Jakarta Persistence Query Language (JPQL).
+The [hotspot=Query file=0]`@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL. JDQL is a strict subset of the Jakarta Persistence Query Language (JPQL).
 
 Packages.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -241,6 +241,14 @@ This query checks for packages where the length, height, or width are larger tha
 JDQL supports both named and positional parameters, as well as a number of operators. This is shown in the [hotspot=withTotalDimensionOver file=0]`withTotalDimensionOver` query, which sums the length, width, and height of each package to check if the total exceeds a provided threshold. Unlike the named parameter syntax (`:threshold`) used in the previous example, this query uses positional parameter syntax with `?1` to reference the first method parameter.
 
 See the https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0#_jakarta_data_query_language[Jakarta Data specification] for a more comprehensive overview of the Jakarta Data Query Language.
+
+== Running the application
+
+Because you are running the application in dev mode, any changes you make to the code are automatically picked up. You're now ready to test out your queries in the browser.
+
+Point your browser to the http://localhost:9080 URL to access the application. You can select different queries from the list and provide input parameters to see how Jakarta Data retrieves the package data.
+
+Try experimenting with different query parameters to see how the results change. For example, use the `findByLengthGreaterThan` query with different length values to filter packages by length.
 
 == Where to next?
 Experiment by creating your own queries. Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application. For example, you could add a query to find packages arriving at a specific destination, which is ordered by width:

@@ -98,7 +98,9 @@ public interface Packages extends CrudRepository<Package, Integer> {
     // tag::query-anno[]
 
     // tag::withAnyDimensionLargerThan[]
+    // tag::Query[]
     @Query("WHERE length > :threshold OR height > :threshold OR width > :threshold")
+    // end::Query[]
     List<Package> withAnyDimensionLargerThan(float threshold);
     // end::withAnyDimensionLargerThan[]
 
