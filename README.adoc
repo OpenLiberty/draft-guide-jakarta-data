@@ -94,16 +94,9 @@ Packages.java
 include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 ----
 
-A common pattern with repositories is to use the plural of the entity, so the repository used in this guide is called `Packages.java`. Repositories in Jakarta Data provide a simplified means for interacting with persistent data. They are annotated with the `@Repository` annotation. Jakarta Data provides several built-in repositories with common methods which can be extended with application-specific queries. The [hotspot=CrudRepository file=1]`CrudRepository` interface provides methods for Create, Read, Update, and Delete (CRUD) operations.
+The repository used in this guide is called `Packages.java`. Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data's [hotspot=CrudRepository file=1]`CrudRepository` interface provides built-in methods for Create, Read, Update, and Delete (CRUD) operations, so all you need to add are queries.
 
-[hotspot=CrudRepository file=1]`CrudRepository` provides two options for persisting entities, `insert` and `save`. The first option `insert` persists an entity only if the entity does not already exist. The `save` option persists an entity even if it already exists, allowing it to be used for updating entities as well. [hotspot=CrudRepository file=1]`CrudRepository` provides a `delete` method for removing entities.
-
-```java
-Package p1 = new Package(1, 10f, 20f, 10f, "Rochester");
-packages.insert(p1);
-packages.save(p1);
-packages.delete(p1);
-```
+For more information on Jakarta Data repositories, see the documentation here: TODO link
 
 == Query by Method Name
 
@@ -121,8 +114,15 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 `src/main/java/io/openliberty/guides/data/Packages.java`
 ----
 
+This allows methods like [hotspot=findByLengthGreaterThan file=0]`findByLengthGreaterThan(float length)` or [hotspot=findByHeightBetween file=0]`findByHeightBetween(float minHeight, float maxHeight)` to automatically be turned into queries. For more information see the JavaDoc section on https://jakarta.ee/specifications/data/1.0/apidocs/jakarta.data/module-summary#:~:text=Refer%20to%20the%20API%20documentation%20for%20%40Query%20for%20further%20information.-,Query%20by%20Method%20Name,-The%20Query%20by%20Method%20Name%20pattern%20translates[Query by Method Name]
 
-This allows methods like [hotspot=findByLengthGreaterThan file=0]`findByLengthGreaterThan(float length)` or [hotspot=findByHeightBetween file=0]`findByHeightBetween(float minHeight, float maxHeight)` to automatically be turned into queries. Method names must start with an action like `find`, `delete`, or `count` and can include operators (such as `And`, `Or`, and `Not`) and conditions (such as `GreaterThan`, `LessThan`, and `Between`).
+Because you are running the application in dev mode, your changes are automatically picked up. Refresh the application in your browser at http://localhost:9080 to see the new queries you just added. Try out the `findByLengthGreaterThan` query by entering different length values, or experiment with the `findByHeightBetween` query by providing minimum and maximum height values.
+
+Now that you have seen how Query by Method Name works, try creating your own queries following the same pattern. Here are some ideas to get you started:
+
+* Find all packages going to a specific destination
+* Find packages narrower than a specified width
+
 
 == Querying with method annotations
 
