@@ -11,14 +11,14 @@
 :page-duration: 15 minutes
 :page-releasedate: 2024-01-01
 :page-majorupdateddate: 2023-01-01
-:page-description: Description - TODO
+:page-description: Learn how to use Jakarta Data to access and persist data to a database for your microservices.
 :page-tags: ['jakarta-ee']
 :page-related-guides: []
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-:page-seo-title: Jakarta Data - TODO
-:page-seo-description: Jakarta Data - TODO
+:page-seo-title: Data Persistence with Jakarta Data
+:page-seo-description: A getting started tutorial with examples of how to use Jakarta Data to access and persist data to a database in a Jakarta EE application, including query methods derived from method names, annotation-based queries, and the Jakarta Data Query Language (JDQL).
 :guide-author: Open Liberty
 = Data Persistence with Jakarta Data
 [.hidden]
@@ -96,7 +96,7 @@ include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
 
 The repository used in this guide is called `Packages.java`. Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data's [hotspot=CrudRepository file=1]`CrudRepository` interface provides built-in methods for Create, Read, Update, and Delete (CRUD) operations, so all you need to add are queries specific to your application's needs.
 
-For more information on Jakarta Data repositories, see the documentation here: TODO link
+For more information on Jakarta Data repositories, see the documentation here: https://openliberty.io/docs/latest/jakarta-data.html#_repositories
 
 == Query by Method Name
 
