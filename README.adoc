@@ -1,5 +1,5 @@
 
 = Guide title
 
-:common-includes: staging
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/staging
 
