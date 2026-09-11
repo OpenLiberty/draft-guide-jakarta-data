@@ -1,5 +1,247 @@
-
-= Guide title
-
+// Copyright (c) 2024, 2026 IBM Corporation and others.
+// Licensed under Creative Commons Attribution-NoDerivatives
+// 4.0 International (CC BY-ND 4.0)
+//   https://creativecommons.org/licenses/by-nd/4.0/
+//
+// Contributors:
+//     IBM Corporation
+//
+:page-layout: guide-multipane
+:projectid: jakarta-data
+:page-duration: 15 minutes
+:page-releasedate: 2024-01-01
+:page-majorupdateddate: 2023-01-01
+:page-description: Learn how to use Jakarta Data to access and persist data to a database for your microservices.
+:page-tags: ['jakarta-ee']
+:page-related-guides: []
+:page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/staging
+:source-highlighter: prettify
+:page-seo-title: Data Persistence with Jakarta Data
+:page-seo-description: A getting started tutorial with examples of how to use Jakarta Data to access and persist data to a database in a Jakarta EE application, including query methods derived from method names, annotation-based queries, and the Jakarta Data Query Language (JDQL).
+:guide-author: Open Liberty
+= Data Persistence with Jakarta Data
+[.hidden]
+NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
+== What you'll learn
+
+You will learn how to use https://jakarta.ee/specifications/data/1.0/jakarta-data-1.0[Jakarta Data] to store data as well as the simple, yet powerful options it provides for querying data. This will include writing queries that are created from the method name, as well as queries using annotations. Finally, you will learn about the Jakarta Data Query Language (JDQL).
+
+The application demonstrates a number of different queries that are possible with Jakarta Data. As you proceed through the guide, you will be able to write your own queries with the provided sample data.
+
+=== What is Jakarta Data?
+Jakarta Data is a new data access specification being released with Jakarta EE 11. It provides a new API for simplified data access. Jakarta Data follows the Repository design pattern for data access, and allows for implementations which may support both SQL and NoSQL data stores.
+
+[role='command']
+include::{common-includes}/gitclone.adoc[]
+
+[role='command']
+include::{common-includes}/twyb-intro-mvnw.adoc[]
+
+This application allows you to run queries against a set of shipping packages which have a variety of dimensions and destinations.  Go to the http://localhost:9080 URL to see all the application data. You can see a column of queries, some of which accept input. To start, find the `findAll` query with no inputs. Selecting this returns all of the query data similar to the following:
+
+[role="no_copy"]
+----
+ID  Length  Width   Height  Destination
+1   10      20      10      Rochester
+2   30      10      10      Austin
+3   5       10      5       RTP
+4   24      15      6       Rochester
+5   15      7       2       Austin
+6   8       5       3       Rochester
+7   16      3       15      RTP
+8   2       15      18      Rochester
+----
+
+You can then try some of the queries which use input to see how it changes which packages are returned. If you find the query named `findByLengthGreaterThan` and enter `25` in the box labeled length, you can then run the query by clicking the ➜ button. The result looks like the following, with only lengths greater than 25:
+
+[role="no_copy"]
+----
+ID  Length  Width  Height  Destination
+2   30      10	   10      Austin
+16  38      16     25      Markham
+----
+
+
+[role='command']
+include::{common-includes}/twyb-end-mvnw.adoc[]
+
+== Creating an entity and repository
+
+Navigate to the `start` directory to begin.
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/guide-jakarta-data/start
+```
+endif::[]
+
+[role='command']
+include::{common-includes}/devmode-mvnw-start.adoc[]
+
+In Jakarta Data an entity defines the structure for persisting a piece of data. This structure is represented by a Java object and its associated fields. The entity used in this guide is a record class called `Package.java`, which contains a few fields.
+
+Package.java
+[source, Java, linenums, role='code_column hide_tags=copyright,app-only']
+----
+include::finish/src/main/java/io/openliberty/guides/data/Package.java[]
+----
+
+
+Packages.java
+[source, Java, linenums, role='code_column hide_tags=copyright,query-by-method,annotations,sorting,query-anno']
+----
+include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
+----
+
+The repository used in this guide is called `Packages.java`. Repositories in Jakarta Data provide a simplified means for interacting with persistent data. Jakarta Data's [hotspot=CrudRepository file=1]`CrudRepository` interface provides built-in methods for Create, Read, Update, and Delete (CRUD) operations, so all you need to add are queries specific to your application's needs.
+
+For more information on Jakarta Data repositories, see the documentation here: https://openliberty.io/docs/latest/jakarta-data.html#_repositories
+
+== Query by Method Name
+
+Query by Method Name allows you to write queries using a descriptive method name following a few intuitive rules on how the method name is structured.
+
+Packages.java
+[source, Java, linenums, role='code_column hide_tags=copyright,annotations,sorting,query-anno']
+----
+include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
+----
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `Packages.java` class.#
+`src/main/java/io/openliberty/guides/data/Packages.java`
+----
+
+This allows methods like [hotspot=findByLengthGreaterThan file=0]`findByLengthGreaterThan(float length)` or [hotspot=findByHeightBetween file=0]`findByHeightBetween(float minHeight, float maxHeight)` to automatically be turned into queries.
+
+The [hotspot=findByLengthGreaterThan file=0]`findByLengthGreaterThan` method finds packages where the length exceeds the value you provide. If you pass `15`, it returns packages with lengths greater than 15 from the sample data. The [hotspot=findByHeightBetween file=0]`findByHeightBetween` method finds packages within a specific height range. If you pass `5` and `15`, it returns packages with heights between 5 and 15, inclusive.
+
+For more information see the JavaDoc section on https://jakarta.ee/specifications/data/1.0/apidocs/jakarta.data/module-summary#:~:text=Refer%20to%20the%20API%20documentation%20for%20%40Query%20for%20further%20information.-,Query%20by%20Method%20Name,-The%20Query%20by%20Method%20Name%20pattern%20translates[Query by Method Name]
+
+Because you are running the application in dev mode, your changes are automatically picked up. Refresh the application in your browser at http://localhost:9080 to see the new queries you just added. Try out the `findByLengthGreaterThan` query by entering different length values, or experiment with the `findByHeightBetween` query by providing minimum and maximum height values.
+
+Now that you have seen how Query by Method Name works, try creating your own queries following the same pattern. Here are some ideas to get you started:
+
+* Find all packages going to a specific destination
+* Find packages narrower than a specified width
+
+
+== Querying with method annotations
+
+Queries can also be written using method annotations. This allows for additional flexibility in the queries as well as the method names.
+
+Packages.java
+[source, Java, linenums, role='code_column hide_tags=copyright,sorting,query-anno']
+----
+include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
+----
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `Packages.java` class.#
+`src/main/java/io/openliberty/guides/data/Packages.java`
+----
+
+=== The `@Find` and `@By` annotations
+The [hotspot=Find file=0]`@Find` annotation indicates that a method is a query which may return entities. Used in isolation it
+returns all entities, but by using the [hotspot=By file=0]`@By` annotation, it can be limited to entities which match the value provided at runtime. The [hotspot=getPackagesArrivingIn file=0]`getPackagesArrivingIn` method demonstrates using the [hotspot=Find file=0]`@Find` and [hotspot=By file=0]`@By`
+annotations to return all packages that are destined for a specific location.
+
+For example, when you call this method with `Rochester`, it returns the 6 packages from the sample data that are going to Rochester.
+
+
+=== Renaming provided methods
+If a method name provided by a built in Jakarta Data repository class doesn't align with your repository you can use annotations to provide your own method. For example, using the [hotspot=Insert file=0]`@Insert` annotation you can create a method named [hotspot=add file=0]`add` instead of the `insert` method inherited from [hotspot=CrudRepository file=0]`CrudRepository`.
+
+=== The `@OrderBy` annotation
+To provide ordering annotatively, you can use the [hotspot=OrderBy file=0]`@OrderBy` annotation. The default ordering direction is ascending. The [hotspot=sortedByHeightAscending file=0]`sortedByHeightAscending` method demonstrates how to obtain all of the packages in the repository sorted by the height parameter.
+
+This returns all packages ordered from shortest to tallest, starting with the package with height 2, then 3, and so on up to the tallest package with height 25.
+
+Refresh the application in your browser to see the new queries you just added. Try out the `getPackagesArrivingIn` query by entering different destination names, or experiment with the `sortedByHeightAscending` query to see the packages ordered by height.
+
+Now that you have seen how to use annotations for queries, try creating your own annotated methods. Here are some ideas to get you started:
+
+* Find packages with a specific width using `@Find` and `@By`
+* Create a method that returns packages ordered by length
+
+
+
+== Sorting, limiting, and paginating results
+Jakarta Data provides the `Sort` and `Limit` classes to create queries which can be modified at runtime. It also includes a mechanism for pagination to better handle large sets of results.
+
+Packages.java
+[source, Java, linenums, role='code_column hide_tags=copyright,query-anno']
+----
+include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
+----
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `Packages.java` class.#
+`src/main/java/io/openliberty/guides/data/Packages.java`
+----
+
+=== Sort
+In addition to the `@OrderBy` annotation it is possible to provide sorting at runtime. This is accomplished by adding a [hotspot=Sort file=0]`Sort` parameter to your query method like in the [hotspot=Sort file=0]`sorted` method.
+
+For example, you can sort by `length` to see packages from shortest (#2) to longest (#38), or sort by `destination` to see them alphabetically (Austin, Markham, RTP, Rochester).
+
+=== Limit
+Jakarta Data queries can restrict the number of entities returned at runtime by providing a [hotspot=Limit file=0]`Limit` object to the query as shown in the [hotspot=Limit file=0]`shortestWithLimit` method.
+
+This method returns the shortest packages in order from shortest to longest, but limited to only the specified number of results. For example, if you pass `Limit.of(3)`, it returns only the 3 shortest packages (with heights of 2, 3, and 5).
+
+=== Paging
+When querying large amounts of data, paging is possible by adding a [hotspot=PageRequest file=0]`PageRequest` parameter to your query method like in the [hotspot=PageRequest file=0]`all` method. This method returns all of the packages, but with the results paginated based on the provided [hotspot=PageRequest file=0]`PageRequest`.
+
+For example, `PageRequest.ofSize(5)` returns the first 5 packages, and you can request subsequent pages to see the remaining packages from the sample data.
+
+
+Refresh the application in your browser to see the new queries you just added. Try out the `sorted` query by providing different sort parameters, or experiment with the `shortestWithLimit` query to see how limiting affects the results.
+
+Now that you have seen how sorting, limiting, and paginating work, try creating your own queries using these features. Here are some ideas to get you started:
+
+* Find packages going to a specific destination with sorting
+* Get a limited number of the widest packages
+* Create a paginated query for packages by destination
+
+== The Query Annotation
+The [hotspot=Query file=0]`@Query` annotation allows users to write queries using the Jakarta Data Query Language (JDQL). Complex queries can be written concisely using JDQL. JDQL is a strict subset of the Jakarta Persistence Query Language (JPQL).
+
+Packages.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/guides/data/Packages.java[]
+----
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `Packages.java` class.#
+`src/main/java/io/openliberty/guides/data/Packages.java`
+----
+
+For an example of a complex query simplified using JDQL, take a look at [hotspot=withAnyDimensionLargerThan file=0]`withAnyDimensionLargerThan`.
+
+This query checks for packages where the length, height, or width are larger than a threshold, which is provided as a parameter in the function. The threshold parameter is referenced in the query using `:threshold`. Achieving the same query with Query by Method Name would result in a very long method name and additional parameters.
+
+For example, if you pass `20`, it returns packages where at least one dimension exceeds 20, such as package #2 (length 30) or package #16 (length 38, height 25).
+
+The [hotspot=withTotalDimensionOver file=0]`withTotalDimensionOver` query sums the length, width, and height of each package to check if the total exceeds a provided threshold. This query uses positional parameter syntax with `?1` to reference the first method parameter.
+
+For example, passing `50` returns packages where length + width + height > 50. Package #16 (38 + 16 + 25 = 79) would be included in the results.
+
+See the Javadoc for the https://jakarta.ee/specifications/data/1.0/apidocs/jakarta.data/jakarta/data/repository/query[Query Annotation] for more information on JDQL.
+
+== Where to next?
+Experiment by creating your own queries. Use the existing ones in the `Packages` class as a starting point and then test them out in the sample application. For example, you could add a query to find packages arriving at a specific destination, which is ordered by width:
+
+```java
+    @Find
+    @OrderBy("width")
+    List<Package> byWidthArrivingIn(@By("destination") String destination);
+```
+
+//Eventually link to an Advanced Guide as well.
